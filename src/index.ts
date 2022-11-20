@@ -1,5 +1,6 @@
-import { container } from "./composition/core";
+import { container } from "./composition";
+import { Application } from "app";
 
-container.registerSingleton<Window>(() => window);
+const app = container.get<Application>();
 
-console.log(container);
+app.start();
