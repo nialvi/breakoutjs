@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { di } = require("@wessberg/di-compiler");
 const path = require("path");
 
 const config = {
@@ -26,6 +27,21 @@ const config = {
       template: "src/index.html",
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              getCustomTransformers: (program) => di({ program }),
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
 
 module.exports = config;
