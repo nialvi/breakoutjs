@@ -1,1 +1,4 @@
-export type AppSettings = {};
+export type Settings = {
+  canvasWidth: PixelsAmount;
+  canvasHeight: PixelsAmount;
+};

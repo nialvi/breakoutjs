@@ -1,4 +1,5 @@
 import { ElementSource, PixelRatioSource } from "dom";
+import { Settings } from "settings";
 import { DrawingContext, DrawingContextProvider } from "./types";
 
 export class CanvasContextProvider implements DrawingContextProvider {
@@ -8,7 +9,7 @@ export class CanvasContextProvider implements DrawingContextProvider {
   constructor(
     private elementSource: ElementSource,
     private pixelRatioSource: PixelRatioSource,
-    private window: Window
+    private settings: Settings
   ) {
     const element = this.elementSource.getElementById("app");
     if (!element) throw new Error("Failed to find a canvas element.");
@@ -26,7 +27,7 @@ export class CanvasContextProvider implements DrawingContextProvider {
     if (!this.element || !this.context) return;
 
     const ratio = this.pixelRatioSource.devicePixelRatio || 1;
-    const { innerWidth: width, innerHeight: height } = this.window;
+    const { canvasWidth: width, canvasHeight: height } = this.settings;
 
     this.element.width = width * ratio;
     this.element.height = height * ratio;

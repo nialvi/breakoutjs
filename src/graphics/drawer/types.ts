@@ -5,4 +5,5 @@ export type BrushSettings = {
 
 export interface Drawer {
   drawBall(ball: BallEntity, settings?: BrushSettings): void;
+  clearCanvas(): void;
 }

@@ -1,3 +1,4 @@
+import { Settings } from "settings";
 import { DrawingContext, DrawingContextProvider } from "../context/types";
 import { DEFAULT_COLOR, DEFAULT_WIDTH } from "./constants";
 import { Drawer, BrushSettings } from "./types";
@@ -5,7 +6,10 @@ import { Drawer, BrushSettings } from "./types";
 export class CanvasDrawer implements Drawer {
   private context: DrawingContext = null;
 
-  constructor(private contextProvider: DrawingContextProvider) {
+  constructor(
+    private contextProvider: DrawingContextProvider,
+    private settings: Settings
+  ) {
     this.context = this.contextProvider.getInstance();
 
     if (!this.context) throw new Error("Failed to access the drawing context.");
@@ -28,5 +32,14 @@ export class CanvasDrawer implements Drawer {
     this.context.fillStyle = color;
     this.context.fill();
     this.context.closePath();
+  }
+
+  clearCanvas(): void {
+    this.context?.clearRect(
+      0,
+      0,
+      this.settings.canvasWidth,
+      this.settings.canvasHeight
+    );
   }
 }

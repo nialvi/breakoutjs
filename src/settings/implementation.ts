@@ -1,3 +1,6 @@
-import { AppSettings } from "./types";
+import { Settings } from "./types";
 
-export const settings: AppSettings = {};
+export const settings: Settings = {
+  canvasHeight: window.innerHeight,
+  canvasWidth: window.innerWidth,
+};

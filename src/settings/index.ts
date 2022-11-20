@@ -1,1 +1,1 @@
-export { AppSettings } from "./types";
+export { Settings } from "./types";

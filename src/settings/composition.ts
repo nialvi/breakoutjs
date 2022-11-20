@@ -1,5 +1,5 @@
 import { container } from "../composition";
-import { AppSettings } from "./types";
+import { Settings } from "./types";
 import { settings } from "./implementation";
 
-container.registerSingleton<AppSettings>(() => settings);
+container.registerSingleton<Settings>(() => settings);
