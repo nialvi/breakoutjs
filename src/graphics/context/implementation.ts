@@ -27,7 +27,7 @@ export class CanvasContextProvider implements DrawingContextProvider {
     if (!this.element || !this.context) return;
 
     const ratio = this.pixelRatioSource.devicePixelRatio || 1;
-    const { canvasWidth: width, canvasHeight: height } = this.settings;
+    const { width, height } = this.settings.canvas;
 
     this.element.width = width * ratio;
     this.element.height = height * ratio;

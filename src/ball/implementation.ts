@@ -1,17 +1,22 @@
+import { Settings } from "settings";
 import { BallShape } from "./types";
 
 export class Ball implements BallShape {
   private ball: BallEntity;
 
-  constructor() {
-    this.ball = { x: 0, y: 0, radius: 0 };
+  constructor(settings: Settings) {
+    this.ball = { x: 0, y: 0, radius: settings.ball.radius };
   }
 
-  create(x: number, y: number, radius: number): BallEntity {
+  get radius() {
+    return this.ball.radius;
+  }
+
+  create(x: number, y: number): BallEntity {
     this.ball = {
+      ...this.ball,
       x,
       y,
-      radius,
     };
 
     return this.ball;

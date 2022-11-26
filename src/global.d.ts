@@ -32,3 +32,5 @@ type WallEntity = CollisionObject & {
 };
 type PaddleEntity = CollisionObject;
 type BrickEntity = CollisionObject;
+
+type EventType = "left" | "right" | "top" | "bottom";

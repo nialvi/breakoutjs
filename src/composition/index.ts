@@ -8,6 +8,8 @@ import "../graphics/drawer/composition";
 import "../ball/composition";
 import "../collision/composition";
 import "../paddle/composition";
+import "../input/composition";
+import "../eventListener/composition";
 
 container.registerSingleton<Window>(() => window);
 

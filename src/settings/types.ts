@@ -1,8 +1,23 @@
 export type Settings = {
-  canvasWidth: PixelsAmount;
-  canvasHeight: PixelsAmount;
+  canvas: {
+    width: PixelsAmount;
+    height: PixelsAmount;
+    borderWidth: PixelsAmount;
+  };
 
-  speed: Speed;
+  wall: {
+    width: PixelsAmount;
+  };
 
-  direction: Direction;
+  paddle: {
+    width: PixelsAmount;
+    height: PixelsAmount;
+    speed: Speed;
+  };
+
+  ball: {
+    radius: Radius;
+    speed: Speed;
+    direction: Direction;
+  };
 };

@@ -6,9 +6,11 @@ import { ElementSource } from "dom";
 import { Settings } from "settings";
 import { Collision } from "collision";
 import { PaddleShape } from "paddle";
+import { Input } from "input";
 
 export class App implements Application {
   private ballPoint: Point;
+  private paddlePoint: Point;
   private speedBall: Speed;
   private direction: Direction;
 
@@ -18,22 +20,60 @@ export class App implements Application {
     private elementSource: ElementSource,
     private settings: Settings,
     private collision: Collision,
-    private paddle: PaddleShape
+    private paddle: PaddleShape,
+    private input: Input
   ) {
     this.ballPoint = {
-      x: this.settings.canvasWidth / 2,
-      y: this.settings.canvasHeight - 100,
+      x: this.settings.canvas.width / 2,
+      y: this.settings.canvas.height - 100,
     };
 
     this.direction = {
-      horizontal: this.settings.direction.horizontal,
-      vertical: this.settings.direction.vertical,
+      horizontal: this.settings.ball.direction.horizontal,
+      vertical: this.settings.ball.direction.vertical,
     };
 
     this.speedBall = {
-      horizontal: this.settings.speed.horizontal,
-      vertical: this.settings.speed.vertical,
+      horizontal: this.settings.ball.speed.horizontal,
+      vertical: this.settings.ball.speed.vertical,
     };
+
+    this.paddlePoint = {
+      x: this.settings.canvas.width / 2,
+      y:
+        this.settings.canvas.height -
+        this.settings.canvas.borderWidth * 3 -
+        this.settings.wall.width -
+        paddle.height,
+    };
+
+    this.input.on("left", () => {
+      if (
+        this.paddlePoint.x <=
+        this.settings.canvas.borderWidth * 2 +
+          this.settings.wall.width +
+          paddle.speed.horizontal
+      ) {
+        return;
+      }
+
+      this.paddlePoint.x -= paddle.speed.horizontal;
+    });
+
+    this.input.on("right", () => {
+      if (
+        this.paddlePoint.x >=
+        this.settings.canvas.width -
+          this.settings.wall.width -
+          this.settings.canvas.borderWidth -
+          paddle.width -
+          paddle.speed.horizontal
+      ) {
+        return;
+      }
+
+      this.paddlePoint.x += paddle.speed.horizontal;
+    });
   }
 
   start() {
@@ -56,46 +96,46 @@ export class App implements Application {
 
     this.ballPoint = this.getNextBallPoint(this.ballPoint);
 
+    const { borderWidth } = this.settings.canvas;
+    const { width: wallWidth } = this.settings.wall;
+
     const walls: WallEntity[] = [
       {
-        x: 1,
-        y: 1,
-        height: this.settings.canvasHeight - 2,
-        width: 10,
+        x: borderWidth,
+        y: borderWidth,
+        height: this.settings.canvas.height - borderWidth - wallWidth,
+        width: wallWidth,
         position: "left",
         status: "normal",
       },
       {
-        x: this.settings.canvasWidth - 11,
-        y: 1,
-        height: this.settings.canvasHeight - 2,
-        width: 10,
+        x: this.settings.canvas.width - borderWidth - wallWidth,
+        y: borderWidth,
+        height: this.settings.canvas.height - borderWidth - wallWidth,
+        width: wallWidth,
         position: "right",
         status: "normal",
       },
       {
-        x: 1,
-        y: 1,
-        height: 10,
-        width: this.settings.canvasWidth - 11,
+        x: borderWidth + wallWidth,
+        y: borderWidth,
+        height: wallWidth,
+        width: this.settings.canvas.width - borderWidth - wallWidth * 2,
         position: "top",
         status: "normal",
       },
       {
-        x: 1,
-        y: this.settings.canvasHeight - 11,
-        height: 10,
-        width: this.settings.canvasWidth - 11,
+        x: borderWidth,
+        y: this.settings.canvas.height - borderWidth - wallWidth,
+        height: wallWidth,
+        width: this.settings.canvas.width - borderWidth * 2,
         position: "bottom",
         status: "dead",
       },
     ];
 
-    const ball = this.ball.create(this.ballPoint.x, this.ballPoint.y, 15);
-    const paddle = this.paddle.create(
-      this.settings.canvasWidth / 2,
-      this.settings.canvasHeight - 27
-    );
+    const ball = this.ball.create(this.ballPoint.x, this.ballPoint.y);
+    const paddle = this.paddle.create(this.paddlePoint.x, this.paddlePoint.y);
     const collisionWallType = this.collision.withWalls(
       ball,
       [...walls, paddle],

@@ -17,7 +17,7 @@ export class CanvasDrawer implements Drawer {
 
   public drawBall(
     { x, y, radius }: BallEntity,
-    { color = "", width }: BrushSettings = {}
+    { color, width }: BrushSettings = {}
   ): void {
     if (!this.context) return;
 
@@ -29,7 +29,7 @@ export class CanvasDrawer implements Drawer {
     // это прямое использование `CanvasRenderingContext2D`:
     this.context.beginPath();
     this.context.arc(x, y, radius, 0, Math.PI * 2, false);
-    this.context.fillStyle = color;
+    this.context.fillStyle = color ?? "black";
     this.context.fill();
     this.context.closePath();
   }
@@ -58,8 +58,8 @@ export class CanvasDrawer implements Drawer {
     this.context?.clearRect(
       0,
       0,
-      this.settings.canvasWidth,
-      this.settings.canvasHeight
+      this.settings.canvas.width,
+      this.settings.canvas.height
     );
   }
 }
