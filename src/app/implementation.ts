@@ -5,6 +5,7 @@ import { Application } from "./types";
 import { ElementSource } from "dom";
 import { Settings } from "settings";
 import { Collision } from "collision";
+import { PaddleShape } from "paddle";
 
 export class App implements Application {
   private ballPoint: Point;
@@ -16,7 +17,8 @@ export class App implements Application {
     private drawer: Drawer,
     private elementSource: ElementSource,
     private settings: Settings,
-    private collision: Collision
+    private collision: Collision,
+    private paddle: PaddleShape
   ) {
     this.ballPoint = {
       x: this.settings.canvasWidth / 2,
@@ -89,10 +91,14 @@ export class App implements Application {
       },
     ];
 
-    const ball = this.ball.create(this.ballPoint.x, this.ballPoint.y, 20);
+    const ball = this.ball.create(this.ballPoint.x, this.ballPoint.y, 15);
+    const paddle = this.paddle.create(
+      this.settings.canvasWidth / 2,
+      this.settings.canvasHeight - 27
+    );
     const collisionWallType = this.collision.withWalls(
       ball,
-      walls,
+      [...walls, paddle],
       this.direction
     );
 
@@ -114,6 +120,7 @@ export class App implements Application {
     }
 
     this.drawer.drawBall(ball);
+    this.drawer.drawPaddle(paddle);
 
     walls.forEach((wall) => {
       this.drawer.drawWall(wall);

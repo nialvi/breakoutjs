@@ -44,6 +44,16 @@ export class CanvasDrawer implements Drawer {
     this.context.closePath();
   }
 
+  public drawPaddle(paddle: PaddleEntity): void {
+    if (!this.context) return;
+
+    this.context.beginPath();
+    this.context.rect(paddle.x, paddle.y, paddle.width, paddle.height);
+    this.context.fillStyle = paddle.color ?? "black";
+    this.context.fill();
+    this.context.closePath();
+  }
+
   clearCanvas(): void {
     this.context?.clearRect(
       0,

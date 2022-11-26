@@ -3,19 +3,19 @@ import { Collision } from "./types";
 export class GameCollision implements Collision {
   withWalls(
     ball: BallEntity,
-    walls: WallEntity[],
+    objects: CollisionObject[],
     direction: Direction
   ): Position {
     let result: Position = "initial";
 
-    walls.forEach((wall) => {
+    objects.forEach((object) => {
       if (
-        ball.x + ball.radius * direction.horizontal > wall.x &&
-        ball.x + ball.radius * direction.horizontal < wall.x + wall.width &&
-        ball.y + ball.radius * direction.vertical > wall.y &&
-        ball.y + ball.radius * direction.vertical < wall.y + wall.height
+        ball.x + ball.radius * direction.horizontal > object.x &&
+        ball.x + ball.radius * direction.horizontal < object.x + object.width &&
+        ball.y + ball.radius * direction.vertical > object.y &&
+        ball.y + ball.radius * direction.vertical < object.y + object.height
       ) {
-        result = wall.position;
+        result = object.position;
       }
     });
 
