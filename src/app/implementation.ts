@@ -7,6 +7,7 @@ import { Settings } from "settings";
 import { Collision } from "collision";
 import { PaddleShape } from "paddle";
 import { Input } from "input";
+import { BricksShape } from "bricks";
 
 export class App implements Application {
   private ballPoint: Point;
@@ -21,7 +22,8 @@ export class App implements Application {
     private settings: Settings,
     private collision: Collision,
     private paddle: PaddleShape,
-    private input: Input
+    private input: Input,
+    private bricks: BricksShape
   ) {
     this.ballPoint = {
       x: this.settings.canvas.width / 2,
@@ -101,6 +103,8 @@ export class App implements Application {
 
     const walls: WallEntity[] = [
       {
+        id: "wall-0",
+        type: "wall",
         x: borderWidth,
         y: borderWidth,
         height: this.settings.canvas.height - borderWidth - wallWidth,
@@ -109,6 +113,8 @@ export class App implements Application {
         status: "normal",
       },
       {
+        id: "wall-1",
+        type: "wall",
         x: this.settings.canvas.width - borderWidth - wallWidth,
         y: borderWidth,
         height: this.settings.canvas.height - borderWidth - wallWidth,
@@ -117,6 +123,8 @@ export class App implements Application {
         status: "normal",
       },
       {
+        id: "wall-0",
+        type: "wall",
         x: borderWidth + wallWidth,
         y: borderWidth,
         height: wallWidth,
@@ -125,6 +133,8 @@ export class App implements Application {
         status: "normal",
       },
       {
+        id: "wall-0",
+        type: "wall",
         x: borderWidth,
         y: this.settings.canvas.height - borderWidth - wallWidth,
         height: wallWidth,
@@ -134,25 +144,40 @@ export class App implements Application {
       },
     ];
 
+    let bricksMatrix = this.bricks.allBricks;
     const ball = this.ball.create(this.ballPoint.x, this.ballPoint.y);
     const paddle = this.paddle.create(this.paddlePoint.x, this.paddlePoint.y);
-    const collisionWallType = this.collision.withWalls(
+    const collisionObject = this.collision.withObjects(
       ball,
-      [...walls, paddle],
+      [...walls, paddle, ...bricksMatrix.flatMap((item) => item)],
       this.direction
     );
 
-    switch (collisionWallType) {
-      case "left":
-      case "right": {
-        this.direction.horizontal = this.direction.horizontal === 1 ? -1 : 1;
-        break;
+    switch (collisionObject.type) {
+      case "wall":
+      case "paddle": {
+        if (
+          collisionObject.position === "left" ||
+          collisionObject.position === "right"
+        ) {
+          this.direction.horizontal = this.direction.horizontal === 1 ? -1 : 1;
+          break;
+        }
+
+        if (
+          collisionObject.position === "top" ||
+          collisionObject.position === "bottom"
+        ) {
+          this.direction.vertical = this.direction.vertical === 1 ? -1 : 1;
+          break;
+        }
       }
 
-      case "bottom":
-      case "top": {
+      case "brick": {
+        bricksMatrix = this.bricks.changeState(collisionObject.id);
+
         this.direction.vertical = this.direction.vertical === 1 ? -1 : 1;
-        break;
+        console.log(collisionObject);
       }
 
       default: {
@@ -161,6 +186,7 @@ export class App implements Application {
 
     this.drawer.drawBall(ball);
     this.drawer.drawPaddle(paddle);
+    this.drawer.drawBricks(bricksMatrix);
 
     walls.forEach((wall) => {
       this.drawer.drawWall(wall);

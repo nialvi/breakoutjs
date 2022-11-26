@@ -1,14 +1,39 @@
 import { Settings } from "./types";
 
+const wallWidth = 5;
+const borderWidth = 1;
+const bricksAmountRow = 4;
+const bricksAmountColumn = 5;
+const bricksPaddingX = 5;
+
 export const settings: Settings = {
   canvas: {
     width: window.innerWidth,
     height: window.innerHeight,
-    borderWidth: 1,
+    borderWidth: borderWidth,
+  },
+
+  bricks: {
+    amount: {
+      row: bricksAmountRow,
+      column: bricksAmountColumn,
+    },
+    height: 20,
+    width: Math.ceil(
+      (window.innerWidth -
+        wallWidth * 2 -
+        borderWidth * 2 -
+        bricksPaddingX * bricksAmountColumn) /
+        bricksAmountColumn
+    ),
+    padding: {
+      x: bricksPaddingX,
+      y: 3,
+    },
   },
 
   ball: {
-    radius: 15,
+    radius: 10,
     speed: {
       horizontal: 2,
       vertical: 2,
@@ -20,7 +45,7 @@ export const settings: Settings = {
   },
 
   wall: {
-    width: 11,
+    width: wallWidth,
   },
 
   paddle: {

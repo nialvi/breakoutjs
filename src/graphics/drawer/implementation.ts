@@ -39,7 +39,7 @@ export class CanvasDrawer implements Drawer {
 
     this.context.beginPath();
     this.context.rect(wall.x, wall.y, wall.width, wall.height);
-    this.context.fillStyle = wall.color ?? "black";
+    this.context.fillStyle = wall.color ?? "white";
     this.context.fill();
     this.context.closePath();
   }
@@ -52,6 +52,24 @@ export class CanvasDrawer implements Drawer {
     this.context.fillStyle = paddle.color ?? "black";
     this.context.fill();
     this.context.closePath();
+  }
+
+  drawBricks(bricks: BrickEntity[][]): void {
+    bricks.forEach((columnBricks, columnIndex) => {
+      columnBricks.forEach((rowBricks, rowIndex) => {
+        if (!this.context) return;
+
+        if (bricks[columnIndex][rowIndex].status === "normal") {
+          const brick = bricks[columnIndex][rowIndex];
+
+          this.context.beginPath();
+          this.context.rect(brick.x, brick.y, brick.width, brick.height);
+          this.context.fillStyle = "#0095DD";
+          this.context.fill();
+          this.context.closePath();
+        }
+      });
+    });
   }
 
   clearCanvas(): void {

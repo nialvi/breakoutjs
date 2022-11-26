@@ -1,21 +1,25 @@
 import { Collision } from "./types";
 
 export class GameCollision implements Collision {
-  withWalls(
+  withObjects(
     ball: BallEntity,
     objects: CollisionObject[],
     direction: Direction
-  ): Position {
-    let result: Position = "initial";
+  ): CollisionObject {
+    let result = {} as CollisionObject;
 
     objects.forEach((object) => {
+      if (object.status === "hidden") {
+        return;
+      }
+
       if (
         ball.x + ball.radius * direction.horizontal > object.x &&
         ball.x + ball.radius * direction.horizontal < object.x + object.width &&
         ball.y + ball.radius * direction.vertical > object.y &&
         ball.y + ball.radius * direction.vertical < object.y + object.height
       ) {
-        result = object.position;
+        result = object;
       }
     });
 

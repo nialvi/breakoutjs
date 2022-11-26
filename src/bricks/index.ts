@@ -1,0 +1,1 @@
+export { BricksShape } from "./types";

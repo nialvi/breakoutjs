@@ -26,12 +26,15 @@ export class Paddle implements PaddleShape {
 
   create(x: number, y: number): PaddleEntity {
     return {
+      id: "p1",
+      type: "paddle",
       x,
       y,
       width: this._width,
       height: this._height,
       color: "tomato",
       position: "bottom",
+      status: "normal",
     };
   }
 }

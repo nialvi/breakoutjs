@@ -1,6 +1,9 @@
 type Nullable<T> = T | null;
 
 type HexColor = string;
+type ObjectId = string;
+
+type ObjectType = "wall" | "ball" | "paddle" | "brick";
 
 type Speed = {
   horizontal: number;
@@ -21,15 +24,15 @@ type Direction = {
   vertical: 1 | -1;
 };
 
-type Status = "normal" | "dead";
-
 type CollisionObject = RectangleEntity & {
+  id: ObjectId;
+  type: ObjectType;
   position: Position;
-};
-
-type WallEntity = CollisionObject & {
   status: Status;
 };
+
+type Status = "normal" | "dead" | "hidden";
+type WallEntity = CollisionObject;
 type PaddleEntity = CollisionObject;
 type BrickEntity = CollisionObject;
 

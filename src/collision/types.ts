@@ -1,9 +1,9 @@
 type WallType = "left" | "right" | "top" | "bottom";
 
 export interface Collision {
-  withWalls(
+  withObjects(
     ball: BallEntity,
     objects: CollisionObject[],
     direction: Direction
-  ): Position;
+  ): CollisionObject;
 }

@@ -5,6 +5,19 @@ export type Settings = {
     borderWidth: PixelsAmount;
   };
 
+  bricks: {
+    amount: {
+      row: number;
+      column: number;
+    };
+    height: PixelsAmount;
+    width: PixelsAmount;
+    padding: {
+      x: PixelsAmount;
+      y: PixelsAmount;
+    };
+  };
+
   wall: {
     width: PixelsAmount;
   };

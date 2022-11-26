@@ -10,6 +10,7 @@ import "../collision/composition";
 import "../paddle/composition";
 import "../input/composition";
 import "../eventListener/composition";
+import "../bricks/composition";
 
 container.registerSingleton<Window>(() => window);
 
