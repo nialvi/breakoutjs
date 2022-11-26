@@ -1,13 +1,8 @@
 type Nullable<T> = T | null;
 
-type Coordinate = number;
-type Radius = number;
+type HexColor = string;
 
-type BallEntity = {
-  x: Coordinate;
-  y: Coordinate;
-  radius: Radius;
+type Speed = {
+  horizontal: number;
+  vertical: number;
 };
-
-type Color = string;
-type PixelsAmount = number;

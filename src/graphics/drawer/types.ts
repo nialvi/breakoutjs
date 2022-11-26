@@ -1,9 +1,10 @@
 export type BrushSettings = {
-  color?: Color;
+  color?: HexColor;
   width?: PixelsAmount;
 };
 
 export interface Drawer {
   drawBall(ball: BallEntity, settings?: BrushSettings): void;
+  drawWall(wall: WallEntity): void;
   clearCanvas(): void;
 }

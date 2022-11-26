@@ -34,6 +34,16 @@ export class CanvasDrawer implements Drawer {
     this.context.closePath();
   }
 
+  public drawWall(wall: WallEntity) {
+    if (!this.context) return;
+
+    this.context.beginPath();
+    this.context.rect(wall.x, wall.y, wall.width, wall.height);
+    this.context.fillStyle = wall.color ?? "black";
+    this.context.fill();
+    this.context.closePath();
+  }
+
   clearCanvas(): void {
     this.context?.clearRect(
       0,
