@@ -7,4 +7,5 @@ export interface PaddleShape {
   get y(): PixelsAmount;
   changeLeftPostion(): void;
   changeRightPosition(): void;
+  stop(): void;
 }

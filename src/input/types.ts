@@ -1,3 +1,4 @@
 export interface Input {
-  on(type: EventType, cb: () => void): void;
+  on(type: EventType, cb: (data: any) => void): void;
+  get keyPressed(): boolean;
 }

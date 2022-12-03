@@ -2,7 +2,7 @@ import { Settings } from "./types";
 
 const wallWidth = 5;
 const borderWidth = 1;
-const bricksAmountRow = 4;
+const bricksAmountRow = 10;
 const bricksAmountColumn = 5;
 const bricksPaddingX = 5;
 
@@ -52,7 +52,7 @@ export const settings: Settings = {
     width: 100,
     height: 15,
     speed: {
-      horizontal: 10,
+      horizontal: 0,
       vertical: 0,
     },
   },

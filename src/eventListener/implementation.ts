@@ -18,7 +18,7 @@ export class Listener implements EventListener {
   off(eventType: string, listener: () => void): void {}
 
   notify(eventType: string, data?: any): void {
-    this.listeners[eventType].forEach((listener) => {
+    this.listeners[eventType]?.forEach((listener) => {
       listener(data);
     });
   }

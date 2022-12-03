@@ -2,20 +2,36 @@ import { Input } from "./types";
 import { EventListener } from "eventListener";
 
 export class InputController implements Input {
+  private isKeyPressed: boolean;
+
   constructor(private window: Window, private eventListener: EventListener) {
     this.window.document.addEventListener("keydown", this.initKeydown);
-    // this.window.document.addEventListener("keyup", this.initKeydown);
+    this.window.document.addEventListener("keyup", this.initKeyUp);
+
+    this.isKeyPressed = false;
   }
 
   initKeydown = (e: KeyboardEvent) => {
     if (e.key === "ArrowLeft") {
+      this.isKeyPressed = true;
       this.eventListener.notify("left");
     } else if (e.key === "ArrowRight") {
+      this.isKeyPressed = true;
       this.eventListener.notify("right");
     }
   };
 
-  on(type: EventType, callback: () => void) {
+  initKeyUp = (e: KeyboardEvent) => {
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+      this.isKeyPressed = false;
+    }
+  };
+
+  on(type: EventType, callback: (data: any) => void) {
     this.eventListener.on(type, callback);
+  }
+
+  get keyPressed(): boolean {
+    return this.isKeyPressed;
   }
 }

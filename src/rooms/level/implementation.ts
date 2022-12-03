@@ -22,30 +22,10 @@ export class LevelDefault implements LevelRoom {
     private walls: WallsShape
   ) {
     this.input.on("left", () => {
-      if (
-        this.paddle.x <=
-        this.settings.canvas.borderWidth * 2 +
-          this.settings.wall.width +
-          paddle.speed.horizontal
-      ) {
-        return;
-      }
-
       this.paddle.changeLeftPostion();
     });
 
     this.input.on("right", () => {
-      if (
-        this.paddle.x >=
-        this.settings.canvas.width -
-          this.settings.wall.width -
-          this.settings.canvas.borderWidth -
-          paddle.width -
-          paddle.speed.horizontal
-      ) {
-        return;
-      }
-
       this.paddle.changeRightPosition();
     });
   }
@@ -63,6 +43,10 @@ export class LevelDefault implements LevelRoom {
       paddle,
       ...bricksMatrix.flatMap((item) => item),
     ]);
+
+    if (!this.input.keyPressed) {
+      this.paddle.stop();
+    }
 
     switch (collisionObject.type) {
       case "wall":

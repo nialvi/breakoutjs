@@ -1,5 +1,5 @@
 export interface EventListener {
-  on(eventType: string, listener: () => void): void;
-  off(eventType: string, listener: () => void): void;
-  notify(eventType: string, data?: any): void;
+  on(eventType: EventType, listener: (data?: any) => void): void;
+  off(eventType: EventType, listener: (data?: any) => void): void;
+  notify(eventType: EventType, data?: any): void;
 }
