@@ -31,7 +31,7 @@ export class Bricks implements BricksShape {
       });
   }
 
-  get allBricks(): BrickEntity[][] {
+  get entity(): BrickEntity[][] {
     return this._bricks;
   }
 

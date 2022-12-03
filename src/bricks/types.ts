@@ -1,4 +1,4 @@
 export interface BricksShape {
-  get allBricks(): BrickEntity[][];
+  get entity(): BrickEntity[][];
   changeState(id: ObjectId): BrickEntity[][];
 }

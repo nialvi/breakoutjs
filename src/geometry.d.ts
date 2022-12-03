@@ -6,6 +6,8 @@ type BallEntity = {
   x: Coordinate;
   y: Coordinate;
   radius: Radius;
+  speed: Speed;
+  direction: Direction;
 };
 
 type RectangleEntity = {

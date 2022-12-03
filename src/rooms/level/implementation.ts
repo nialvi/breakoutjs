@@ -10,10 +10,7 @@ import { BricksShape } from "bricks";
 import { WallsShape } from "walls";
 
 export class LevelDefault implements LevelRoom {
-  private ballPoint: Point;
   private paddlePoint: Point;
-  private speedBall: Speed;
-  private direction: Direction;
 
   constructor(
     private ball: BallShape,
@@ -26,21 +23,6 @@ export class LevelDefault implements LevelRoom {
     private bricks: BricksShape,
     private walls: WallsShape
   ) {
-    this.ballPoint = {
-      x: this.settings.canvas.width / 2,
-      y: this.settings.canvas.height - 100,
-    };
-
-    this.direction = {
-      horizontal: this.settings.ball.direction.horizontal,
-      vertical: this.settings.ball.direction.vertical,
-    };
-
-    this.speedBall = {
-      horizontal: this.settings.ball.speed.horizontal,
-      vertical: this.settings.ball.speed.vertical,
-    };
-
     this.paddlePoint = {
       x: this.settings.canvas.width / 2,
       y:
@@ -79,28 +61,18 @@ export class LevelDefault implements LevelRoom {
     });
   }
 
-  private getNextBallPoint(point: Point): Point {
-    return {
-      x: point.x + this.speedBall.horizontal * this.direction.horizontal,
-      y: point.y + this.speedBall.vertical * this.direction.vertical,
-    };
-  }
-
   draw(): void {
     this.drawer.clearCanvas();
 
-    this.ballPoint = this.getNextBallPoint(this.ballPoint);
-
     const walls = this.walls.entity;
-
-    let bricksMatrix = this.bricks.allBricks;
-    const ball = this.ball.create(this.ballPoint.x, this.ballPoint.y);
+    let bricksMatrix = this.bricks.entity;
+    const ball = this.ball.getNextBallEntity();
     const paddle = this.paddle.create(this.paddlePoint.x, this.paddlePoint.y);
-    const collisionObject = this.collision.withObjects(
-      ball,
-      [...walls, paddle, ...bricksMatrix.flatMap((item) => item)],
-      this.direction
-    );
+    const collisionObject = this.collision.withObjects(ball, [
+      ...walls,
+      paddle,
+      ...bricksMatrix.flatMap((item) => item),
+    ]);
 
     switch (collisionObject.type) {
       case "wall":
@@ -110,8 +82,7 @@ export class LevelDefault implements LevelRoom {
             collisionObject.position === "left" ||
             collisionObject.position === "right"
           ) {
-            this.direction.horizontal =
-              this.direction.horizontal === 1 ? -1 : 1;
+            this.ball.changeHorizontalDirection();
             break;
           }
 
@@ -119,7 +90,7 @@ export class LevelDefault implements LevelRoom {
             collisionObject.position === "top" ||
             collisionObject.position === "bottom"
           ) {
-            this.direction.vertical = this.direction.vertical === 1 ? -1 : 1;
+            this.ball.changeVerticalDirection();
             break;
           }
         }
@@ -128,8 +99,7 @@ export class LevelDefault implements LevelRoom {
       case "brick": {
         bricksMatrix = this.bricks.changeState(collisionObject.id);
 
-        this.direction.vertical = this.direction.vertical === 1 ? -1 : 1;
-        console.log(collisionObject);
+        this.ball.changeVerticalDirection();
       }
 
       default: {
