@@ -53,10 +53,11 @@ export class LevelDefault implements LevelRoom {
   draw(): void {
     this.drawer.clearCanvas();
 
-    const walls = this.walls.entity;
     let bricksMatrix = this.bricks.entity;
+    const walls = this.walls.entity;
     const paddle = this.paddle.entity;
-    const ball = this.ball.getNextBallEntity();
+    const ball = this.ball.entity;
+
     const collisionObject = this.collision.withObjects(ball, [
       ...walls,
       paddle,

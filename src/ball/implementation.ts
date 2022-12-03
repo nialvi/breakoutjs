@@ -26,16 +26,6 @@ export class Ball implements BallShape {
     return this.ball.radius;
   }
 
-  create(x: number, y: number): BallEntity {
-    this.ball = {
-      ...this.ball,
-      x,
-      y,
-    };
-
-    return this.ball;
-  }
-
   setPosition(x: number, y: number): BallEntity {
     this.ball.x = x;
     this.ball.y = y;
@@ -43,7 +33,7 @@ export class Ball implements BallShape {
     return this.ball;
   }
 
-  getNextBallEntity(): BallEntity {
+  get entity(): BallEntity {
     return this.setPosition(
       this.ball.x + this.ball.speed.horizontal * this.ball.direction.horizontal,
       this.ball.y + this.ball.speed.vertical * this.ball.direction.vertical
