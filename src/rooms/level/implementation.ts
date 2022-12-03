@@ -10,8 +10,6 @@ import { BricksShape } from "bricks";
 import { WallsShape } from "walls";
 
 export class LevelDefault implements LevelRoom {
-  private paddlePoint: Point;
-
   constructor(
     private ball: BallShape,
     private drawer: Drawer,
@@ -23,18 +21,9 @@ export class LevelDefault implements LevelRoom {
     private bricks: BricksShape,
     private walls: WallsShape
   ) {
-    this.paddlePoint = {
-      x: this.settings.canvas.width / 2,
-      y:
-        this.settings.canvas.height -
-        this.settings.canvas.borderWidth * 3 -
-        this.settings.wall.width -
-        paddle.height,
-    };
-
     this.input.on("left", () => {
       if (
-        this.paddlePoint.x <=
+        this.paddle.x <=
         this.settings.canvas.borderWidth * 2 +
           this.settings.wall.width +
           paddle.speed.horizontal
@@ -42,12 +31,12 @@ export class LevelDefault implements LevelRoom {
         return;
       }
 
-      this.paddlePoint.x -= paddle.speed.horizontal;
+      this.paddle.changeLeftPostion();
     });
 
     this.input.on("right", () => {
       if (
-        this.paddlePoint.x >=
+        this.paddle.x >=
         this.settings.canvas.width -
           this.settings.wall.width -
           this.settings.canvas.borderWidth -
@@ -57,7 +46,7 @@ export class LevelDefault implements LevelRoom {
         return;
       }
 
-      this.paddlePoint.x += paddle.speed.horizontal;
+      this.paddle.changeRightPosition();
     });
   }
 
@@ -66,8 +55,8 @@ export class LevelDefault implements LevelRoom {
 
     const walls = this.walls.entity;
     let bricksMatrix = this.bricks.entity;
+    const paddle = this.paddle.entity;
     const ball = this.ball.getNextBallEntity();
-    const paddle = this.paddle.create(this.paddlePoint.x, this.paddlePoint.y);
     const collisionObject = this.collision.withObjects(ball, [
       ...walls,
       paddle,

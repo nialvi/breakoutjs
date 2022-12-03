@@ -6,6 +6,8 @@ export class Ball implements BallShape {
 
   constructor(settings: Settings) {
     this.ball = {
+      id: "ball-0",
+      type: "ball",
       x: settings.canvas.width / 2,
       y: settings.canvas.height - 100,
       radius: settings.ball.radius,

@@ -31,9 +31,16 @@ type CollisionObject = RectangleEntity & {
   status: Status;
 };
 
+type BallEntity = CircleEntity & {
+  id: ObjectId;
+  type: ObjectType;
+  speed: Speed;
+  direction: Direction;
+};
+
 type Status = "normal" | "dead" | "hidden";
 type WallEntity = CollisionObject;
-type PaddleEntity = CollisionObject;
+type PaddleEntity = CollisionObject & { speed: Speed };
 type BrickEntity = CollisionObject;
 
 type EventType = "left" | "right" | "top" | "bottom";

@@ -2,12 +2,10 @@ type PixelsAmount = number;
 type Coordinate = number;
 type Radius = number;
 
-type BallEntity = {
+type CircleEntity = {
   x: Coordinate;
   y: Coordinate;
   radius: Radius;
-  speed: Speed;
-  direction: Direction;
 };
 
 type RectangleEntity = {
