@@ -1,0 +1,1 @@
+export { WallsShape } from "./types";

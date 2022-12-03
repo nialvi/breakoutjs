@@ -12,6 +12,7 @@ import "../input/composition";
 import "../eventListener/composition";
 import "../bricks/composition";
 import "../rooms/level/composition";
+import "../walls/composition";
 
 container.registerSingleton<Window>(() => window);
 

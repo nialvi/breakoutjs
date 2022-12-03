@@ -7,6 +7,7 @@ import { Collision } from "collision";
 import { PaddleShape } from "paddle";
 import { Input } from "input";
 import { BricksShape } from "bricks";
+import { WallsShape } from "walls";
 
 export class LevelDefault implements LevelRoom {
   private ballPoint: Point;
@@ -22,7 +23,8 @@ export class LevelDefault implements LevelRoom {
     private collision: Collision,
     private paddle: PaddleShape,
     private input: Input,
-    private bricks: BricksShape
+    private bricks: BricksShape,
+    private walls: WallsShape
   ) {
     this.ballPoint = {
       x: this.settings.canvas.width / 2,
@@ -89,51 +91,7 @@ export class LevelDefault implements LevelRoom {
 
     this.ballPoint = this.getNextBallPoint(this.ballPoint);
 
-    const { borderWidth } = this.settings.canvas;
-    const { width: wallWidth } = this.settings.wall;
-
-    const walls: WallEntity[] = [
-      {
-        id: "wall-0",
-        type: "wall",
-        x: borderWidth,
-        y: borderWidth,
-        height: this.settings.canvas.height - borderWidth - wallWidth,
-        width: wallWidth,
-        position: "left",
-        status: "normal",
-      },
-      {
-        id: "wall-1",
-        type: "wall",
-        x: this.settings.canvas.width - borderWidth - wallWidth,
-        y: borderWidth,
-        height: this.settings.canvas.height - borderWidth - wallWidth,
-        width: wallWidth,
-        position: "right",
-        status: "normal",
-      },
-      {
-        id: "wall-2",
-        type: "wall",
-        x: borderWidth + wallWidth,
-        y: borderWidth,
-        height: wallWidth,
-        width: this.settings.canvas.width - borderWidth - wallWidth * 2,
-        position: "top",
-        status: "normal",
-      },
-      {
-        id: "wall-3",
-        type: "wall",
-        x: borderWidth,
-        y: this.settings.canvas.height - borderWidth - wallWidth,
-        height: wallWidth,
-        width: this.settings.canvas.width - borderWidth * 2,
-        position: "bottom",
-        status: "dead",
-      },
-    ];
+    const walls = this.walls.entity;
 
     let bricksMatrix = this.bricks.allBricks;
     const ball = this.ball.create(this.ballPoint.x, this.ballPoint.y);
