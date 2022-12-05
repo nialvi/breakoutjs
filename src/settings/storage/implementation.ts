@@ -15,10 +15,22 @@ export class GameStorage implements Storage {
   getSettings(): SettingsFromStorage {
     const rowAmount = this.getItem(ItemsKeys.RowAmount);
     const colAmount = this.getItem(ItemsKeys.ColAmount);
+    const acceleration = this.getItem(ItemsKeys.PaddleAcceleration);
+    const paddleMinSpeed = this.getItem(ItemsKeys.PaddleMinSpeed);
+    const paddleMaxSpeed = this.getItem(ItemsKeys.PaddleMaxSpeed);
 
     return {
       ...(rowAmount ? { [ItemsKeys.RowAmount]: Number(rowAmount) } : {}),
       ...(colAmount ? { [ItemsKeys.ColAmount]: Number(colAmount) } : {}),
+      ...(acceleration
+        ? { [ItemsKeys.PaddleAcceleration]: Number(acceleration) }
+        : {}),
+      ...(paddleMinSpeed
+        ? { [ItemsKeys.PaddleMinSpeed]: Number(paddleMinSpeed) }
+        : {}),
+      ...(paddleMaxSpeed
+        ? { [ItemsKeys.PaddleMaxSpeed]: Number(paddleMaxSpeed) }
+        : {}),
     };
   }
 

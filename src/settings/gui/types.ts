@@ -1,6 +1,9 @@
 export enum ItemsKeys {
   RowAmount = "row",
   ColAmount = "col",
+  PaddleMinSpeed = "paddleMinSpeed",
+  PaddleMaxSpeed = "paddleMaxSpeed",
+  PaddleAcceleration = "paddleAcceleration",
 }
 
 export type SettingsFromStorage = {

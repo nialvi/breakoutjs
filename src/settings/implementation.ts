@@ -10,6 +10,9 @@ const bricksPaddingX = 5;
 export function getSettings({
   row = bricksAmountRow,
   col = bricksAmountColumn,
+  paddleAcceleration = 3.05,
+  paddleMaxSpeed = 100,
+  paddleMinSpeed = 0,
 }: SettingsFromStorage): Settings {
   return {
     canvas: {
@@ -64,11 +67,11 @@ export function getSettings({
     paddle: {
       width: 100,
       height: 15,
-      acceleration: 3.05,
+      acceleration: paddleAcceleration,
       speed: {
         horizontal: {
-          max: 100,
-          min: 0,
+          max: paddleMaxSpeed,
+          min: paddleMinSpeed,
           current: 0,
         },
         vertical: {

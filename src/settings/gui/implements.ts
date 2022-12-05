@@ -18,6 +18,9 @@ export class GUISettings implements GUI {
     this.config = {
       row: this.settings.bricks.amount.row,
       col: this.settings.bricks.amount.column,
+      paddleAcceleration: this.settings.paddle.acceleration,
+      paddleMinSpeed: this.settings.paddle.speed.horizontal.min,
+      paddleMaxSpeed: this.settings.paddle.speed.horizontal.max,
       resetSettings: () => {
         this.storage.clear();
         this.window.location.reload();
@@ -25,21 +28,36 @@ export class GUISettings implements GUI {
     };
   }
 
+  addController(key: string, onFinish: (value: any) => void) {
+    this.gui.add(this.config, key).onFinishChange(onFinish);
+  }
+
   create(): void {
-    this.gui
-      .add(this.config, ItemsKeys.RowAmount)
-      .onFinishChange((value: any) => {
-        this.settings.bricks.amount.row = value;
+    this.addController(ItemsKeys.RowAmount, (value: any) => {
+      this.settings.bricks.amount.row = value;
+      this.storage.setItem(ItemsKeys.RowAmount, value);
+    });
 
-        this.storage.setItem(ItemsKeys.RowAmount, value);
-      });
-    this.gui
-      .add(this.config, ItemsKeys.ColAmount)
-      .onFinishChange((value: any) => {
-        this.settings.bricks.amount.column = value;
+    this.addController(ItemsKeys.ColAmount, (value: any) => {
+      this.settings.bricks.amount.column = value;
+      this.storage.setItem(ItemsKeys.ColAmount, value);
+    });
 
-        this.storage.setItem(ItemsKeys.ColAmount, value);
-      });
+    this.addController(ItemsKeys.PaddleAcceleration, (value: any) => {
+      this.settings.paddle.acceleration = value;
+      this.storage.setItem(ItemsKeys.PaddleAcceleration, value);
+    });
+
+    this.addController(ItemsKeys.PaddleMaxSpeed, (value: any) => {
+      this.settings.paddle.speed.horizontal.max = value;
+      this.storage.setItem(ItemsKeys.PaddleMaxSpeed, value);
+    });
+
+    this.addController(ItemsKeys.PaddleMinSpeed, (value: any) => {
+      this.settings.paddle.speed.horizontal.min = value;
+      this.storage.setItem(ItemsKeys.PaddleMinSpeed, value);
+    });
+
     this.gui.add(this.config, "resetSettings");
   }
 
