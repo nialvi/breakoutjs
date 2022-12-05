@@ -40,8 +40,16 @@ export function getSettings({
     ball: {
       radius: 10,
       speed: {
-        horizontal: 2,
-        vertical: 2,
+        horizontal: {
+          max: 2,
+          min: 0,
+          current: 2,
+        },
+        vertical: {
+          max: 2,
+          min: 0,
+          current: 2,
+        },
       },
       direction: {
         horizontal: 1,
@@ -56,9 +64,18 @@ export function getSettings({
     paddle: {
       width: 100,
       height: 15,
+      acceleration: 3.05,
       speed: {
-        horizontal: 0,
-        vertical: 0,
+        horizontal: {
+          max: 100,
+          min: 0,
+          current: 0,
+        },
+        vertical: {
+          max: 100,
+          min: 0,
+          current: 0,
+        },
       },
     },
   };

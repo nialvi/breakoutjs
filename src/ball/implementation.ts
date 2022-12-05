@@ -35,8 +35,10 @@ export class Ball implements BallShape {
 
   get entity(): BallEntity {
     return this.setPosition(
-      this.ball.x + this.ball.speed.horizontal * this.ball.direction.horizontal,
-      this.ball.y + this.ball.speed.vertical * this.ball.direction.vertical
+      this.ball.x +
+        this.ball.speed.horizontal.current * this.ball.direction.horizontal,
+      this.ball.y +
+        this.ball.speed.vertical.current * this.ball.direction.vertical
     );
   }
 

@@ -26,6 +26,7 @@ export type Settings = {
     width: PixelsAmount;
     height: PixelsAmount;
     speed: Speed;
+    acceleration: number;
   };
 
   ball: {

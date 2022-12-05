@@ -8,8 +8,16 @@ type ObjectId = string;
 type ObjectType = "wall" | "ball" | "paddle" | "brick";
 
 type Speed = {
-  horizontal: number;
-  vertical: number;
+  horizontal: {
+    current: number;
+    max: number;
+    min: number;
+  };
+  vertical: {
+    current: number;
+    max: number;
+    min: number;
+  };
 };
 
 type Position = "initial" | "left" | "right" | "top" | "bottom";
@@ -42,7 +50,7 @@ type BallEntity = CircleEntity & {
 
 type Status = "normal" | "dead" | "hidden";
 type WallEntity = CollisionObject;
-type PaddleEntity = CollisionObject & { speed: Speed };
+type PaddleEntity = CollisionObject & { speed: Speed; acceleration: number };
 type BrickEntity = CollisionObject;
 
 type EventType = "left" | "right" | "top" | "bottom";

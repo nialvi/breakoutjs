@@ -1,10 +1,6 @@
 import { Settings } from "settings";
 import { PaddleShape } from "./types";
 
-const INITIAL_ACC = 1.05;
-const MAX_SPEED = 100;
-const MIN_SPEED = 0;
-
 type SpeedUpParams = {
   currentValue: number;
   targetValue: number;
@@ -13,7 +9,6 @@ type SpeedUpParams = {
 
 export class Paddle implements PaddleShape {
   private _paddle: PaddleEntity;
-  private acceleration: number;
   private boundary: { left: number; right: number };
 
   constructor(private settings: Settings) {
@@ -30,9 +25,8 @@ export class Paddle implements PaddleShape {
       position: "bottom",
       status: "normal",
       speed: paddle.speed,
+      acceleration: paddle.acceleration,
     };
-
-    this.acceleration = INITIAL_ACC;
 
     this.boundary = {
       left: canvas.borderWidth + wall.width,
@@ -67,42 +61,47 @@ export class Paddle implements PaddleShape {
 
   private changePosition(): void {
     if (
-      this._paddle.x + this._paddle.speed.horizontal < this.boundary.left ||
-      this._paddle.x + this._paddle.speed.horizontal > this.boundary.right
+      this._paddle.x + this._paddle.speed.horizontal.current <
+        this.boundary.left ||
+      this._paddle.x + this._paddle.speed.horizontal.current >
+        this.boundary.right
     ) {
       this.stop();
       return;
     }
 
-    this._paddle.x += this._paddle.speed.horizontal;
+    this._paddle.x += this._paddle.speed.horizontal.current;
   }
 
   changeLeftPostion(): void {
-    this._paddle.speed.horizontal = this.speedUp({
-      currentValue: this._paddle.speed.horizontal,
-      targetValue: -MAX_SPEED,
-      changeAmount: this.acceleration,
+    this._paddle.speed.horizontal.current = this.speedUp({
+      currentValue: this._paddle.speed.horizontal.current,
+      targetValue: -this._paddle.speed.horizontal.max,
+      changeAmount: this._paddle.acceleration,
     });
 
     this.changePosition();
   }
 
   changeRightPosition(): void {
-    this._paddle.speed.horizontal = this.speedUp({
-      currentValue: this._paddle.speed.horizontal,
-      targetValue: MAX_SPEED,
-      changeAmount: this.acceleration,
+    this._paddle.speed.horizontal.current = this.speedUp({
+      currentValue: this._paddle.speed.horizontal.current,
+      targetValue: this._paddle.speed.horizontal.max,
+      changeAmount: this._paddle.acceleration,
     });
 
     this.changePosition();
   }
 
   stop(): void {
-    if (this._paddle.speed.horizontal !== MIN_SPEED) {
-      this._paddle.speed.horizontal = this.speedUp({
-        currentValue: this._paddle.speed.horizontal,
-        targetValue: MIN_SPEED,
-        changeAmount: this.acceleration,
+    if (
+      this._paddle.speed.horizontal.current !==
+      this._paddle.speed.horizontal.min
+    ) {
+      this._paddle.speed.horizontal.current = this.speedUp({
+        currentValue: this._paddle.speed.horizontal.current,
+        targetValue: this._paddle.speed.horizontal.min,
+        changeAmount: this._paddle.acceleration,
       });
 
       this.changePosition();
