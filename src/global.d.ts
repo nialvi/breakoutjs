@@ -1,3 +1,5 @@
+type SessionStorage = WindowSessionStorage["sessionStorage"];
+
 type Nullable<T> = T | null;
 
 type HexColor = string;

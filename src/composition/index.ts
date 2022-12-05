@@ -1,6 +1,8 @@
 import { container } from "./core";
 
 import "../settings/composition";
+import "../settings/storage/composition";
+import "../settings/gui/composition";
 import "../app/composition";
 import "../dom/composition";
 import "../graphics/context/composition";

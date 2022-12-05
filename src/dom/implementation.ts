@@ -10,4 +10,8 @@ export class DomSource implements ElementSource {
   animateFrame(callback: (timestamp: number) => void): number {
     return this.window.requestAnimationFrame(callback);
   }
+
+  cancelAnimationFrame(timer: number): void {
+    return this.window.cancelAnimationFrame(timer);
+  }
 }
