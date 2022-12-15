@@ -25,6 +25,10 @@ export class InputController implements Input {
     if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
       this.isKeyPressed = false;
     }
+
+    if (e.key === " ") {
+      this.eventListener.notify("start");
+    }
   };
 
   on(type: EventType, callback: (data: any) => void) {

@@ -46,12 +46,12 @@ export function getSettings({
         horizontal: {
           max: 2,
           min: 0,
-          current: 2,
+          current: 0,
         },
         vertical: {
           max: 2,
           min: 0,
-          current: 2,
+          current: 0,
         },
       },
       direction: {

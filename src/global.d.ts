@@ -53,4 +53,4 @@ type WallEntity = CollisionObject;
 type PaddleEntity = CollisionObject & { speed: Speed; acceleration: number };
 type BrickEntity = CollisionObject;
 
-type EventType = "left" | "right" | "top" | "bottom";
+type EventType = "left" | "right" | "top" | "bottom" | "start";

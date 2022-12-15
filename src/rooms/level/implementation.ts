@@ -28,6 +28,10 @@ export class LevelDefault implements LevelRoom {
     this.input.on("right", () => {
       this.paddle.changeRightPosition();
     });
+
+    this.input.on("start", () => {
+      this.ball.setCurrentSpeed(2);
+    });
   }
 
   draw(): void {

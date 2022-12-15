@@ -17,7 +17,7 @@ export class Paddle implements PaddleShape {
     this._paddle = {
       id: "p1",
       type: "paddle",
-      x: canvas.width / 2,
+      x: canvas.width / 2 - paddle.width / 2,
       y: canvas.height - canvas.borderWidth * 3 - wall.width - paddle.height,
       width: paddle.width,
       height: paddle.height,
