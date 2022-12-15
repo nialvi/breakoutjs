@@ -4,10 +4,14 @@ import { BricksShape } from "./types";
 export class Bricks implements BricksShape {
   private _bricks: BrickEntity[][];
 
-  constructor(settings: Settings) {
-    const { bricks, wall, canvas } = settings;
+  constructor(private settings: Settings) {
+    this._bricks = this.initialState();
+  }
 
-    this._bricks = new Array(bricks.amount.column)
+  private initialState(): BrickEntity[][] {
+    const { bricks, wall, canvas } = this.settings;
+
+    return new Array(bricks.amount.column)
       .fill("column")
       .map((_, columnIndex) => {
         return new Array(bricks.amount.row).fill("row").map((_, rowIndex) => {
@@ -47,5 +51,9 @@ export class Bricks implements BricksShape {
     });
 
     return this._bricks;
+  }
+
+  reset(): void {
+    this._bricks = this.initialState();
   }
 }

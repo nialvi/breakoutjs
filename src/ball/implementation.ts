@@ -6,26 +6,32 @@ const PADDING = 5;
 export class Ball implements BallShape {
   private ball: BallEntity;
 
-  constructor(settings: Settings) {
-    this.ball = {
+  constructor(private settings: Settings) {
+    this.ball = this.initialState();
+  }
+
+  private initialState(): BallEntity {
+    const { canvas, ball, wall, paddle } = this.settings;
+
+    return {
       id: "ball-0",
       type: "ball",
-      x: settings.canvas.width / 2,
+      x: canvas.width / 2,
       y:
-        settings.canvas.height -
-        settings.ball.radius -
-        settings.wall.width -
-        settings.paddle.height -
-        settings.canvas.borderWidth -
+        canvas.height -
+        ball.radius -
+        wall.width -
+        paddle.height -
+        canvas.borderWidth -
         PADDING,
-      radius: settings.ball.radius,
+      radius: ball.radius,
       speed: {
-        horizontal: settings.ball.speed.horizontal,
-        vertical: settings.ball.speed.vertical,
+        horizontal: ball.speed.horizontal,
+        vertical: ball.speed.vertical,
       },
       direction: {
-        horizontal: settings.ball.direction.horizontal,
-        vertical: settings.ball.direction.vertical,
+        horizontal: ball.direction.horizontal,
+        vertical: ball.direction.vertical,
       },
     };
   }
@@ -59,12 +65,24 @@ export class Ball implements BallShape {
     this.ball.direction.vertical = this.ball.direction.vertical === 1 ? -1 : 1;
   }
 
-  resetPosition(): BallEntity {
-    return this.setPosition(100, 100);
+  reset() {
+    this.ball = this.initialState();
   }
 
   setCurrentSpeed(amount: number): void {
-    this.ball.speed.horizontal.current = amount;
-    this.ball.speed.vertical.current = amount;
+    this.ball = {
+      ...this.ball,
+      speed: {
+        ...this.ball.speed,
+        vertical: {
+          ...this.ball.speed.vertical,
+          current: amount,
+        },
+        horizontal: {
+          ...this.ball.speed.horizontal,
+          current: amount,
+        },
+      },
+    };
   }
 }

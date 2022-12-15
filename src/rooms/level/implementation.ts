@@ -72,6 +72,12 @@ export class LevelDefault implements LevelRoom {
             break;
           }
         }
+
+        if (collisionObject.status === "dead") {
+          this.ball.reset();
+          this.paddle.reset();
+          this.bricks.reset();
+        }
       }
 
       case "brick": {

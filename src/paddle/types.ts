@@ -8,4 +8,5 @@ export interface PaddleShape {
   changeLeftPostion(): void;
   changeRightPosition(): void;
   stop(): void;
+  reset(): void;
 }

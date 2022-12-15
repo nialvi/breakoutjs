@@ -4,6 +4,6 @@ export interface BallShape {
   changeHorizontalDirection(): void;
   changeVerticalDirection(): void;
   setPosition(x: Coordinate, y: Coordinate): BallEntity;
-  resetPosition(): BallEntity;
+  reset(): void;
   setCurrentSpeed(amount: number): void;
 }

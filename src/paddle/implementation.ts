@@ -9,12 +9,24 @@ type SpeedUpParams = {
 
 export class Paddle implements PaddleShape {
   private _paddle: PaddleEntity;
-  private boundary: { left: number; right: number };
+  private _boundary: { left: number; right: number };
 
   constructor(private settings: Settings) {
+    const { canvas, wall } = this.settings;
+
+    this._paddle = this.initialState();
+
+    this._boundary = {
+      left: canvas.borderWidth + wall.width,
+      right:
+        canvas.width - wall.width - canvas.borderWidth - this._paddle.width,
+    };
+  }
+
+  private initialState(): PaddleEntity {
     const { canvas, wall, paddle } = this.settings;
 
-    this._paddle = {
+    return {
       id: "p1",
       type: "paddle",
       x: canvas.width / 2 - paddle.width / 2,
@@ -26,12 +38,6 @@ export class Paddle implements PaddleShape {
       status: "normal",
       speed: paddle.speed,
       acceleration: paddle.acceleration,
-    };
-
-    this.boundary = {
-      left: canvas.borderWidth + wall.width,
-      right:
-        canvas.width - wall.width - canvas.borderWidth - this._paddle.width,
     };
   }
 
@@ -62,9 +68,9 @@ export class Paddle implements PaddleShape {
   private changePosition(): void {
     if (
       this._paddle.x + this._paddle.speed.horizontal.current <
-        this.boundary.left ||
+        this._boundary.left ||
       this._paddle.x + this._paddle.speed.horizontal.current >
-        this.boundary.right
+        this._boundary.right
     ) {
       this.stop();
       return;
@@ -118,5 +124,9 @@ export class Paddle implements PaddleShape {
     }
 
     return currentValue;
+  }
+
+  reset(): void {
+    this._paddle = this.initialState();
   }
 }
