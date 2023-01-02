@@ -7,6 +7,8 @@ type SpeedUpParams = {
   changeAmount: number;
 };
 
+const VELOCITY = 0.98;
+
 export class Paddle implements PaddleShape {
   private _paddle: PaddleEntity;
   private _boundary: { left: number; right: number };
@@ -65,65 +67,51 @@ export class Paddle implements PaddleShape {
     return this._paddle.y;
   }
 
-  private changePosition(): void {
-    if (
-      this._paddle.x + this._paddle.speed.horizontal.current <
-        this._boundary.left ||
-      this._paddle.x + this._paddle.speed.horizontal.current >
-        this._boundary.right
-    ) {
-      this.stop();
-      return;
-    }
-
-    this._paddle.x += this._paddle.speed.horizontal.current;
-  }
-
-  changeLeftPostion(): void {
-    this._paddle.speed.horizontal.current = this.speedUp({
-      currentValue: this._paddle.speed.horizontal.current,
-      targetValue: -this._paddle.speed.horizontal.max,
-      changeAmount: this._paddle.acceleration,
-    });
-
-    this.changePosition();
-  }
-
-  changeRightPosition(): void {
-    this._paddle.speed.horizontal.current = this.speedUp({
-      currentValue: this._paddle.speed.horizontal.current,
-      targetValue: this._paddle.speed.horizontal.max,
-      changeAmount: this._paddle.acceleration,
-    });
-
-    this.changePosition();
-  }
-
-  stop(): void {
-    if (
-      this._paddle.speed.horizontal.current !==
-      this._paddle.speed.horizontal.min
-    ) {
+  changePosition(type: "left" | "right" | "stop"): void {
+    if (type === "stop") {
       this._paddle.speed.horizontal.current = this.speedUp({
         currentValue: this._paddle.speed.horizontal.current,
         targetValue: this._paddle.speed.horizontal.min,
         changeAmount: this._paddle.acceleration,
       });
+    } else {
+      const value = type === "right" ? 1 : -1;
 
-      this.changePosition();
+      this._paddle.speed.horizontal.current +=
+        value * this._paddle.acceleration;
     }
+
+    this.correctCurrentSpeed();
+
+    this._paddle.x += this._paddle.speed.horizontal.current;
   }
 
   private speedUp({ currentValue, targetValue, changeAmount }: SpeedUpParams) {
     if (currentValue < targetValue) {
       currentValue += changeAmount;
-      currentValue = Math.min(currentValue, targetValue);
+      const value = Math.min(currentValue, targetValue);
+      currentValue = Math.round(value * 10) / 10;
     } else {
       currentValue -= changeAmount;
-      currentValue = Math.max(currentValue, targetValue);
+      const value = Math.max(currentValue, targetValue);
+      currentValue = Math.round(value * 10) / 10;
     }
 
     return currentValue;
+  }
+
+  private correctCurrentSpeed() {
+    if (
+      this._paddle.speed.horizontal.current >= this._paddle.speed.horizontal.max
+    ) {
+      this._paddle.speed.horizontal.current = this._paddle.speed.horizontal.max;
+    } else if (
+      this._paddle.speed.horizontal.current <=
+      -this._paddle.speed.horizontal.max
+    ) {
+      this._paddle.speed.horizontal.current =
+        -this._paddle.speed.horizontal.max;
+    }
   }
 
   reset(): void {

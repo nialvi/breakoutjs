@@ -5,8 +5,6 @@ export interface PaddleShape {
   get speed(): Speed;
   get x(): PixelsAmount;
   get y(): PixelsAmount;
-  changeLeftPostion(): void;
-  changeRightPosition(): void;
-  stop(): void;
+  changePosition(type: "left" | "right" | "stop"): void;
   reset(): void;
 }

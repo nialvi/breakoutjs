@@ -22,11 +22,11 @@ export class LevelDefault implements LevelRoom {
     private walls: WallsShape
   ) {
     this.input.on("left", () => {
-      this.paddle.changeLeftPostion();
+      this.paddle.changePosition("left");
     });
 
     this.input.on("right", () => {
-      this.paddle.changeRightPosition();
+      this.paddle.changePosition("right");
     });
 
     this.input.on("start", () => {
@@ -49,7 +49,7 @@ export class LevelDefault implements LevelRoom {
     ]);
 
     if (!this.input.keyPressed) {
-      this.paddle.stop();
+      this.paddle.changePosition("stop");
     }
 
     switch (collisionObject.type) {
