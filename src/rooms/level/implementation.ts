@@ -48,9 +48,7 @@ export class LevelDefault implements LevelRoom {
       ...bricksMatrix.flatMap((item) => item),
     ]);
 
-    if (!this.input.keyPressed) {
-      this.paddle.changePosition("stop");
-    }
+    this.paddle.changePosition("stop");
 
     switch (collisionObject.type) {
       case "wall":

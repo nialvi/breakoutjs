@@ -7,8 +7,6 @@ type SpeedUpParams = {
   changeAmount: number;
 };
 
-const VELOCITY = 0.98;
-
 export class Paddle implements PaddleShape {
   private _paddle: PaddleEntity;
   private _boundary: { left: number; right: number };
@@ -68,50 +66,25 @@ export class Paddle implements PaddleShape {
   }
 
   changePosition(type: "left" | "right" | "stop"): void {
-    if (type === "stop") {
-      this._paddle.speed.horizontal.current = this.speedUp({
-        currentValue: this._paddle.speed.horizontal.current,
-        targetValue: this._paddle.speed.horizontal.min,
-        changeAmount: this._paddle.acceleration,
-      });
-    } else {
-      const value = type === "right" ? 1 : -1;
+    const { current: currentSpeed, max: maxSpeed } =
+      this._paddle.speed.horizontal;
+    const { acceleration } = this._paddle;
 
-      this._paddle.speed.horizontal.current +=
-        value * this._paddle.acceleration;
+    if (type === "right") {
+      if (currentSpeed < maxSpeed) {
+        this._paddle.speed.horizontal.current += 1;
+      }
     }
 
-    this.correctCurrentSpeed();
-
-    this._paddle.x += this._paddle.speed.horizontal.current;
-  }
-
-  private speedUp({ currentValue, targetValue, changeAmount }: SpeedUpParams) {
-    if (currentValue < targetValue) {
-      currentValue += changeAmount;
-      const value = Math.min(currentValue, targetValue);
-      currentValue = Math.round(value * 10) / 10;
-    } else {
-      currentValue -= changeAmount;
-      const value = Math.max(currentValue, targetValue);
-      currentValue = Math.round(value * 10) / 10;
+    if (type === "left") {
+      if (currentSpeed > -maxSpeed) {
+        this._paddle.speed.horizontal.current -= 1;
+      }
     }
 
-    return currentValue;
-  }
-
-  private correctCurrentSpeed() {
-    if (
-      this._paddle.speed.horizontal.current >= this._paddle.speed.horizontal.max
-    ) {
-      this._paddle.speed.horizontal.current = this._paddle.speed.horizontal.max;
-    } else if (
-      this._paddle.speed.horizontal.current <=
-      -this._paddle.speed.horizontal.max
-    ) {
-      this._paddle.speed.horizontal.current =
-        -this._paddle.speed.horizontal.max;
-    }
+    this._paddle.speed.horizontal.current *= acceleration;
+    this._paddle.x +=
+      Math.round(this._paddle.speed.horizontal.current * 100) / 100;
   }
 
   reset(): void {
