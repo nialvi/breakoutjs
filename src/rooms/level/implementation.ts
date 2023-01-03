@@ -10,6 +10,8 @@ import { BricksShape } from "bricks";
 import { WallsShape } from "walls";
 
 export class LevelDefault implements LevelRoom {
+  private paddleMovement: "left" | "right" | "stop";
+
   constructor(
     private ball: BallShape,
     private drawer: Drawer,
@@ -21,12 +23,18 @@ export class LevelDefault implements LevelRoom {
     private bricks: BricksShape,
     private walls: WallsShape
   ) {
+    this.paddleMovement = "stop";
+
     this.input.on("left", () => {
-      this.paddle.changePosition("left");
+      this.paddleMovement = "left";
     });
 
     this.input.on("right", () => {
-      this.paddle.changePosition("right");
+      this.paddleMovement = "right";
+    });
+
+    this.input.on("stop", () => {
+      this.paddleMovement = "stop";
     });
 
     this.input.on("start", () => {
@@ -48,7 +56,7 @@ export class LevelDefault implements LevelRoom {
       ...bricksMatrix.flatMap((item) => item),
     ]);
 
-    this.paddle.changePosition("stop");
+    this.paddle.changePosition(this.paddleMovement);
 
     switch (collisionObject.type) {
       case "wall":

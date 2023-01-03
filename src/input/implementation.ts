@@ -29,6 +29,7 @@ export class InputController implements Input {
       e.key === "d"
     ) {
       this.isKeyPressed = false;
+      this.eventListener.notify("stop");
     }
 
     if (e.key === " ") {

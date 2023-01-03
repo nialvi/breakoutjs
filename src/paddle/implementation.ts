@@ -69,15 +69,14 @@ export class Paddle implements PaddleShape {
       if (currentSpeed < maxSpeed) {
         this._paddle.speed.horizontal.current += 1 * acceleration;
       }
-    }
-
-    if (type === "left") {
+    } else if (type === "left") {
       if (currentSpeed > -maxSpeed) {
         this._paddle.speed.horizontal.current -= 1 * acceleration;
       }
+    } else {
+      this._paddle.speed.horizontal.current *= friction;
     }
 
-    this._paddle.speed.horizontal.current *= friction;
     this._paddle.x += this._paddle.speed.horizontal.current;
   }
 
