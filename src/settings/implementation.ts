@@ -10,7 +10,7 @@ const bricksPaddingX = 5;
 export function getSettings({
   row = bricksAmountRow,
   col = bricksAmountColumn,
-  paddleAcceleration = 1.5,
+  paddleAcceleration = 1,
   paddleFriction = 0.95,
   paddleMaxSpeed = 100,
   paddleMinSpeed = 0,

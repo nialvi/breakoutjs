@@ -26,6 +26,9 @@ export class GUISettings implements GUI {
         this.storage.clear();
         this.window.location.reload();
       },
+      refresh: () => {
+        this.window.location.reload();
+      },
     };
   }
 
@@ -65,6 +68,7 @@ export class GUISettings implements GUI {
     });
 
     this.gui.add(this.config, "resetSettings");
+    this.gui.add(this.config, "refresh");
   }
 
   onChange(callback: (event: any) => void): void {

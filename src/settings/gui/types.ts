@@ -11,7 +11,10 @@ export type SettingsFromStorage = {
   [key in ItemsKeys]?: number;
 };
 
-export type Config = SettingsFromStorage & { resetSettings(): void };
+export type Config = SettingsFromStorage & {
+  resetSettings(): void;
+  refresh(): void;
+};
 
 export interface GUI {
   create(): void;
