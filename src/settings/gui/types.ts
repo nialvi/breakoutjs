@@ -3,6 +3,7 @@ export enum ItemsKeys {
   ColAmount = "col",
   PaddleMinSpeed = "paddleMinSpeed",
   PaddleMaxSpeed = "paddleMaxSpeed",
+  PaddleFriction = "paddleFriction",
   PaddleAcceleration = "paddleAcceleration",
 }
 

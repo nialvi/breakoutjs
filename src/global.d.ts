@@ -50,7 +50,11 @@ type BallEntity = CircleEntity & {
 
 type Status = "normal" | "dead" | "hidden";
 type WallEntity = CollisionObject;
-type PaddleEntity = CollisionObject & { speed: Speed; acceleration: number };
+type PaddleEntity = CollisionObject & {
+  speed: Speed;
+  acceleration: number;
+  friction: number;
+};
 type BrickEntity = CollisionObject;
 
 type EventType = "left" | "right" | "top" | "bottom" | "start";

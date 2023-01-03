@@ -16,12 +16,14 @@ export class GameStorage implements Storage {
     const rowAmount = this.getItem(ItemsKeys.RowAmount);
     const colAmount = this.getItem(ItemsKeys.ColAmount);
     const acceleration = this.getItem(ItemsKeys.PaddleAcceleration);
+    const friction = this.getItem(ItemsKeys.PaddleFriction);
     const paddleMinSpeed = this.getItem(ItemsKeys.PaddleMinSpeed);
     const paddleMaxSpeed = this.getItem(ItemsKeys.PaddleMaxSpeed);
 
     return {
       ...(rowAmount ? { [ItemsKeys.RowAmount]: Number(rowAmount) } : {}),
       ...(colAmount ? { [ItemsKeys.ColAmount]: Number(colAmount) } : {}),
+      ...(friction ? { [ItemsKeys.PaddleFriction]: Number(friction) } : {}),
       ...(acceleration
         ? { [ItemsKeys.PaddleAcceleration]: Number(acceleration) }
         : {}),

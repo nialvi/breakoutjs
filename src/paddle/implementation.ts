@@ -1,12 +1,6 @@
 import { Settings } from "settings";
 import { PaddleShape } from "./types";
 
-type SpeedUpParams = {
-  currentValue: number;
-  targetValue: number;
-  changeAmount: number;
-};
-
 export class Paddle implements PaddleShape {
   private _paddle: PaddleEntity;
   private _boundary: { left: number; right: number };
@@ -37,6 +31,7 @@ export class Paddle implements PaddleShape {
       position: "bottom",
       status: "normal",
       speed: paddle.speed,
+      friction: paddle.friction,
       acceleration: paddle.acceleration,
     };
   }
@@ -68,23 +63,22 @@ export class Paddle implements PaddleShape {
   changePosition(type: "left" | "right" | "stop"): void {
     const { current: currentSpeed, max: maxSpeed } =
       this._paddle.speed.horizontal;
-    const { acceleration } = this._paddle;
+    const { friction, acceleration } = this._paddle;
 
     if (type === "right") {
       if (currentSpeed < maxSpeed) {
-        this._paddle.speed.horizontal.current += 1;
+        this._paddle.speed.horizontal.current += 1 * acceleration;
       }
     }
 
     if (type === "left") {
       if (currentSpeed > -maxSpeed) {
-        this._paddle.speed.horizontal.current -= 1;
+        this._paddle.speed.horizontal.current -= 1 * acceleration;
       }
     }
 
-    this._paddle.speed.horizontal.current *= acceleration;
-    this._paddle.x +=
-      Math.round(this._paddle.speed.horizontal.current * 100) / 100;
+    this._paddle.speed.horizontal.current *= friction;
+    this._paddle.x += this._paddle.speed.horizontal.current;
   }
 
   reset(): void {

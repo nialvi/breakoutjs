@@ -18,6 +18,7 @@ export class GUISettings implements GUI {
     this.config = {
       row: this.settings.bricks.amount.row,
       col: this.settings.bricks.amount.column,
+      paddleFriction: this.settings.paddle.friction,
       paddleAcceleration: this.settings.paddle.acceleration,
       paddleMinSpeed: this.settings.paddle.speed.horizontal.min,
       paddleMaxSpeed: this.settings.paddle.speed.horizontal.max,
@@ -41,6 +42,11 @@ export class GUISettings implements GUI {
     this.addController(ItemsKeys.ColAmount, (value: any) => {
       this.settings.bricks.amount.column = value;
       this.storage.setItem(ItemsKeys.ColAmount, value);
+    });
+
+    this.addController(ItemsKeys.PaddleFriction, (value: any) => {
+      this.settings.paddle.friction = value;
+      this.storage.setItem(ItemsKeys.PaddleFriction, value);
     });
 
     this.addController(ItemsKeys.PaddleAcceleration, (value: any) => {
