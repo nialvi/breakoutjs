@@ -12,10 +12,10 @@ export class InputController implements Input {
   }
 
   initKeydown = (e: KeyboardEvent) => {
-    if (e.key === "ArrowLeft" || e.key === "a") {
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "ф") {
       this.isKeyPressed = true;
       this.eventListener.notify("left");
-    } else if (e.key === "ArrowRight" || e.key === "d") {
+    } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "в") {
       this.isKeyPressed = true;
       this.eventListener.notify("right");
     }
@@ -25,8 +25,10 @@ export class InputController implements Input {
     if (
       e.key === "ArrowLeft" ||
       e.key === "a" ||
+      e.key === "ф" ||
       e.key === "ArrowRight" ||
-      e.key === "d"
+      e.key === "d" ||
+      e.key === "в"
     ) {
       this.isKeyPressed = false;
       this.eventListener.notify("stop");
