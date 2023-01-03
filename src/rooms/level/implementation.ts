@@ -38,7 +38,7 @@ export class LevelDefault implements LevelRoom {
     });
 
     this.input.on("start", () => {
-      this.ball.setCurrentSpeed(2);
+      this.ball.setCurrentSpeed(this.ball.entity.speed.horizontal.max);
     });
   }
 

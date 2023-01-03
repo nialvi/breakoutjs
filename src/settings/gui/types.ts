@@ -5,6 +5,7 @@ export enum ItemsKeys {
   PaddleMaxSpeed = "paddleMaxSpeed",
   PaddleFriction = "paddleFriction",
   PaddleAcceleration = "paddleAcceleration",
+  BallSpeed = "ballSpeed",
 }
 
 export type SettingsFromStorage = {

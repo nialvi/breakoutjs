@@ -22,6 +22,7 @@ export class GUISettings implements GUI {
       paddleAcceleration: this.settings.paddle.acceleration,
       paddleMinSpeed: this.settings.paddle.speed.horizontal.min,
       paddleMaxSpeed: this.settings.paddle.speed.horizontal.max,
+      ballSpeed: this.settings.ball.speed.horizontal.max,
       resetSettings: () => {
         this.storage.clear();
         this.window.location.reload();
@@ -65,6 +66,11 @@ export class GUISettings implements GUI {
     this.addController(ItemsKeys.PaddleMinSpeed, (value: any) => {
       this.settings.paddle.speed.horizontal.min = value;
       this.storage.setItem(ItemsKeys.PaddleMinSpeed, value);
+    });
+
+    this.addController(ItemsKeys.BallSpeed, (value: any) => {
+      this.settings.ball.speed.horizontal.max = value;
+      this.storage.setItem(ItemsKeys.BallSpeed, value);
     });
 
     this.gui.add(this.config, "resetSettings");

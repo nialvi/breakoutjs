@@ -11,9 +11,10 @@ export function getSettings({
   row = bricksAmountRow,
   col = bricksAmountColumn,
   paddleAcceleration = 1,
-  paddleFriction = 0.95,
-  paddleMaxSpeed = 100,
+  paddleFriction = 0.8,
+  paddleMaxSpeed = 20,
   paddleMinSpeed = 0,
+  ballSpeed = 4,
 }: SettingsFromStorage): Settings {
   return {
     canvas: {
@@ -45,12 +46,12 @@ export function getSettings({
       radius: 10,
       speed: {
         horizontal: {
-          max: 2,
+          max: ballSpeed,
           min: 0,
           current: 0,
         },
         vertical: {
-          max: 2,
+          max: ballSpeed,
           min: 0,
           current: 0,
         },
