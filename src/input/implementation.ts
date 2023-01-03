@@ -12,17 +12,22 @@ export class InputController implements Input {
   }
 
   initKeydown = (e: KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
+    if (e.key === "ArrowLeft" || e.key === "a") {
       this.isKeyPressed = true;
       this.eventListener.notify("left");
-    } else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight" || e.key === "d") {
       this.isKeyPressed = true;
       this.eventListener.notify("right");
     }
   };
 
   initKeyUp = (e: KeyboardEvent) => {
-    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    if (
+      e.key === "ArrowLeft" ||
+      e.key === "a" ||
+      e.key === "ArrowRight" ||
+      e.key === "d"
+    ) {
       this.isKeyPressed = false;
     }
 
