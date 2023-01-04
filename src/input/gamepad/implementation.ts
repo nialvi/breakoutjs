@@ -11,6 +11,11 @@ export class Gamepad implements GamepadInput {
         if (!gamepad) {
           continue;
         }
+
+        if (gamepad.buttons[0].pressed) {
+          this.eventListener.notify("start");
+        }
+
         if (gamepad.buttons[15].pressed || gamepad.axes[0] >= 0.5) {
           this.isKeyPressed = true;
           this.eventListener.notify("right");
