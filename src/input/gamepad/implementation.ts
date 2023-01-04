@@ -1,8 +1,23 @@
 import { GamepadInput } from "./types";
 import { EventListener } from "eventListener";
 
+enum GamepadButtons {
+  ArrowRight = 15,
+  ArrowLeft = 14,
+  Select = 8,
+  ThirdButton = 0,
+}
+
+enum GamepadSticks {
+  FirstLeftRight = 0,
+  FirstUpDown = 1,
+  SecondLeftRight = 2,
+  SecondUpDonw = 3,
+}
+
 export class Gamepad implements GamepadInput {
-  private isKeyPressed: boolean;
+  private isAnyControllPressed: boolean = false;
+  private isNeedFireStopEvent: boolean = false;
 
   constructor(private window: Window, private eventListener: EventListener) {
     const pollGamepad = () => {
@@ -12,19 +27,85 @@ export class Gamepad implements GamepadInput {
           continue;
         }
 
-        if (gamepad.buttons[0].pressed) {
-          this.eventListener.notify("start");
-        }
+        const controllButtonIndexes = Object.keys(GamepadButtons)
+          .filter((key: any) => isNaN(Number(GamepadButtons[key])))
+          .map((i) => Number(i));
 
-        if (gamepad.buttons[15].pressed || gamepad.axes[0] >= 0.5) {
-          this.isKeyPressed = true;
-          this.eventListener.notify("right");
-        } else if (gamepad.buttons[14].pressed || gamepad.axes[0] <= -0.5) {
-          this.isKeyPressed = true;
-          this.eventListener.notify("left");
-        } else {
-          this.isKeyPressed = false;
+        const controllStickIndexes = Object.keys(GamepadSticks)
+          .filter((key: any) => isNaN(Number(GamepadSticks[key])))
+          .map((i) => Number(i));
+
+        controllButtonIndexes.forEach((index) => {
+          switch (index) {
+            case GamepadButtons.ArrowRight: {
+              if (gamepad.buttons[index].pressed) {
+                this.isNeedFireStopEvent = true;
+                this.eventListener.notify("right");
+                break;
+              }
+            }
+
+            case GamepadButtons.ArrowLeft: {
+              if (gamepad.buttons[index].pressed) {
+                this.isNeedFireStopEvent = true;
+                this.eventListener.notify("left");
+                break;
+              }
+            }
+
+            case GamepadButtons.Select: {
+              if (gamepad.buttons[index].pressed) {
+                this.isNeedFireStopEvent = true;
+                this.window.location.reload();
+                break;
+              }
+            }
+
+            case GamepadButtons.ThirdButton: {
+              if (gamepad.buttons[index].pressed) {
+                this.isNeedFireStopEvent = true;
+                this.eventListener.notify("start");
+                break;
+              }
+            }
+
+            default:
+              break;
+          }
+        });
+
+        controllStickIndexes.forEach((index) => {
+          switch (index) {
+            case GamepadSticks.FirstLeftRight: {
+              if (gamepad.axes[index] >= 0.5) {
+                this.isNeedFireStopEvent = true;
+                this.eventListener.notify("right");
+                break;
+              }
+
+              if (gamepad.axes[index] <= -0.5) {
+                this.isNeedFireStopEvent = true;
+                this.eventListener.notify("left");
+                break;
+              }
+            }
+
+            default:
+              break;
+          }
+        });
+
+        this.isAnyControllPressed =
+          controllButtonIndexes.some(
+            (index) => gamepad.buttons[index].pressed
+          ) ||
+          controllStickIndexes.some(
+            (index) => gamepad.axes[index] >= 0.5 || gamepad.axes[index] <= -0.5
+          );
+
+        if (!this.isAnyControllPressed && this.isNeedFireStopEvent) {
           this.eventListener.notify("stop");
+          this.isNeedFireStopEvent = false;
         }
       }
 
@@ -32,8 +113,6 @@ export class Gamepad implements GamepadInput {
     };
 
     pollGamepad();
-
-    this.isKeyPressed = false;
   }
 
   on(type: EventType, callback: (data: any) => void): void {
@@ -41,6 +120,6 @@ export class Gamepad implements GamepadInput {
   }
 
   get keyPressed(): boolean {
-    return this.isKeyPressed;
+    return this.isAnyControllPressed;
   }
 }

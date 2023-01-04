@@ -37,6 +37,10 @@ export class Keyboard implements KeyboardInput {
     if (e.key === " ") {
       this.eventListener.notify("start");
     }
+
+    if (e.key === "Enter") {
+      this.window.location.reload();
+    }
   };
 
   on(type: EventType, callback: (data: any) => void) {
