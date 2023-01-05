@@ -13,6 +13,7 @@ import "../paddle/composition";
 import "../input/composition";
 import "../input/keyboard/composition";
 import "../input/gamepad/composition";
+import "../input/touch/composition";
 import "../eventListener/composition";
 import "../bricks/composition";
 import "../rooms/level/composition";
