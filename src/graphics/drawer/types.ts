@@ -8,5 +8,6 @@ export interface Drawer {
   drawWall(wall: WallEntity): void;
   drawPaddle(paddle: PaddleEntity): void;
   drawBricks(bricks: BrickEntity[][]): void;
+  drawBackground(): void;
   clearCanvas(): void;
 }

@@ -27,7 +27,6 @@ export class Paddle implements PaddleShape {
       y: canvas.height - canvas.borderWidth * 3 - wall.width - paddle.height,
       width: paddle.width,
       height: paddle.height,
-      color: "tomato",
       position: "bottom",
       status: "normal",
       speed: paddle.speed,

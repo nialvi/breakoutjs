@@ -44,6 +44,7 @@ export class LevelDefault implements LevelRoom {
 
   draw(): void {
     this.drawer.clearCanvas();
+    this.drawer.drawBackground();
 
     let bricksMatrix = this.bricks.entity;
     const walls = this.walls.entity;

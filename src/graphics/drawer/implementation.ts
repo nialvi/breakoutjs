@@ -29,8 +29,11 @@ export class CanvasDrawer implements Drawer {
     // это прямое использование `CanvasRenderingContext2D`:
     this.context.beginPath();
     this.context.arc(x, y, radius, 0, Math.PI * 2, false);
-    this.context.fillStyle = color ?? "black";
+    this.context.fillStyle = color ?? "#ffca18";
+    this.context.shadowBlur = 20;
+    this.context.shadowColor = "#cd8d3a";
     this.context.fill();
+    this.context.shadowColor = "transparent";
     this.context.closePath();
   }
 
@@ -39,7 +42,7 @@ export class CanvasDrawer implements Drawer {
 
     this.context.beginPath();
     this.context.rect(wall.x, wall.y, wall.width, wall.height);
-    this.context.fillStyle = wall.color ?? "white";
+    this.context.fillStyle = wall.color ?? "#242623";
     this.context.fill();
     this.context.closePath();
   }
@@ -49,8 +52,11 @@ export class CanvasDrawer implements Drawer {
 
     this.context.beginPath();
     this.context.rect(paddle.x, paddle.y, paddle.width, paddle.height);
-    this.context.fillStyle = paddle.color ?? "black";
+    this.context.shadowBlur = 30;
+    this.context.shadowColor = "#6f3b35";
+    this.context.fillStyle = paddle.color ?? "#fa7767";
     this.context.fill();
+    this.context.shadowColor = "transparent";
     this.context.closePath();
   }
 
@@ -64,8 +70,11 @@ export class CanvasDrawer implements Drawer {
 
           this.context.beginPath();
           this.context.rect(brick.x, brick.y, brick.width, brick.height);
-          this.context.fillStyle = "#0095DD";
+          this.context.fillStyle = "#38af4d";
+          this.context.shadowBlur = 10;
+          this.context.shadowColor = "#2fb752";
           this.context.fill();
+          this.context.shadowColor = "transparent";
           this.context.closePath();
         }
       });
@@ -74,6 +83,18 @@ export class CanvasDrawer implements Drawer {
 
   clearCanvas(): void {
     this.context?.clearRect(
+      0,
+      0,
+      this.settings.canvas.width,
+      this.settings.canvas.height
+    );
+  }
+
+  drawBackground(): void {
+    if (!this.context) return;
+
+    this.context.fillStyle = "#242623";
+    this.context.fillRect(
       0,
       0,
       this.settings.canvas.width,
