@@ -31,6 +31,8 @@ export class GUISettings implements GUI {
         this.window.location.reload();
       },
     };
+
+    this.gui.close();
   }
 
   addController(key: string, onFinish: (value: any) => void) {
