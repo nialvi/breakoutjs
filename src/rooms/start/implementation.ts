@@ -1,13 +1,17 @@
+import { BallShape } from "ball";
 import { ElementSource } from "dom";
 import { EventListener } from "eventListener";
 import { Drawer } from "graphics/drawer";
+import { PaddleShape } from "paddle";
 import { StartRoom } from "./types";
 
 export class StartLevel implements StartRoom {
   constructor(
     private drawer: Drawer,
+    private ball: BallShape,
     private elementSource: ElementSource,
-    private eventListener: EventListener
+    private eventListener: EventListener,
+    private paddle: PaddleShape
   ) {}
 
   init() {
@@ -33,6 +37,8 @@ export class StartLevel implements StartRoom {
     this.drawer.drawBackground();
 
     this.drawer.drawPlayButton();
+    this.drawer.drawBall(this.ball.entity);
+    this.drawer.drawPaddle(this.paddle.entity);
   }
 
   destroy(): void {
