@@ -11,9 +11,10 @@ type CircleEntity = {
 type RectangleEntity = {
   x: Coordinate;
   y: Coordinate;
-  height: number;
-  width: number;
+  height: PixelsAmount;
+  width: PixelsAmount;
   color?: HexColor;
+  borderRadius?: PixelsAmount;
 };
 
 type Point = {

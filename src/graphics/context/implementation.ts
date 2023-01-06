@@ -3,7 +3,7 @@ import { Settings } from "settings";
 import { DrawingContext, DrawingContextProvider } from "./types";
 
 export class CanvasContextProvider implements DrawingContextProvider {
-  private element: Nullable<HTMLCanvasElement> = null;
+  private canvas: Nullable<HTMLCanvasElement> = null;
   private context: Nullable<DrawingContext> = null;
 
   constructor(
@@ -11,11 +11,11 @@ export class CanvasContextProvider implements DrawingContextProvider {
     private pixelRatioSource: PixelRatioSource,
     private settings: Settings
   ) {
-    const element = this.elementSource.getElementById("app");
-    if (!element) throw new Error("Failed to find a canvas element.");
+    const { canvas } = this.elementSource;
+    if (!canvas) throw new Error("Failed to find a canvas element.");
 
-    this.element = element as HTMLCanvasElement;
-    this.context = this.element.getContext("2d");
+    this.canvas = canvas;
+    this.context = this.canvas.getContext("2d");
     this.normalizeScale();
   }
 
@@ -24,16 +24,16 @@ export class CanvasContextProvider implements DrawingContextProvider {
   }
 
   private normalizeScale(): void {
-    if (!this.element || !this.context) return;
+    if (!this.canvas || !this.context) return;
 
     const ratio = this.pixelRatioSource.devicePixelRatio || 1;
     const { width, height } = this.settings.canvas;
 
-    this.element.width = width * ratio;
-    this.element.height = height * ratio;
+    this.canvas.width = width * ratio;
+    this.canvas.height = height * ratio;
 
-    this.element.style.width = `${width}px`;
-    this.element.style.height = `${height}px`;
+    this.canvas.style.width = `${width}px`;
+    this.canvas.style.height = `${height}px`;
 
     this.context.imageSmoothingEnabled = false;
     this.context.scale(ratio, ratio);

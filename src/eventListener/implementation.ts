@@ -18,6 +18,7 @@ export class Listener implements EventListener {
   off(eventType: string, listener: () => void): void {}
 
   notify(eventType: string, data?: any): void {
+    console.log("debug events", eventType);
     this.listeners[eventType]?.forEach((listener) => {
       listener(data);
     });

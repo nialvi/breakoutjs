@@ -23,6 +23,10 @@ export class InProgressLevel implements InProgressRoom {
     private eventListener: EventListener
   ) {
     this.paddleMovement = "stop";
+  }
+
+  init() {
+    this.paddleMovement = "stop";
 
     this.input.on("left", () => {
       this.paddleMovement = "left";
@@ -106,4 +110,6 @@ export class InProgressLevel implements InProgressRoom {
       this.drawer.drawWall(wall);
     });
   }
+
+  destroy(): void {}
 }

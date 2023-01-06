@@ -14,4 +14,8 @@ export class DomSource implements ElementSource {
   cancelAnimationFrame(timer: number): void {
     return this.window.cancelAnimationFrame(timer);
   }
+
+  get canvas() {
+    return this.window.document.getElementById("app") as HTMLCanvasElement;
+  }
 }

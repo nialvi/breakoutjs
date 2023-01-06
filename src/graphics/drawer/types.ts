@@ -9,5 +9,10 @@ export interface Drawer {
   drawPaddle(paddle: PaddleEntity): void;
   drawBricks(bricks: BrickEntity[][]): void;
   drawBackground(): void;
+  drawPlayButton(): void;
+  drawRetryButton(): void;
+  clickedInsidePlayButton(clientPoint: Point): boolean;
+  clickedInsideRetryButton(clientPoint: Point): boolean;
   clearCanvas(): void;
+  get mainButton(): RectangleEntity;
 }

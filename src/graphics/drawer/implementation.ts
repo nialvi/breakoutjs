@@ -3,8 +3,18 @@ import { DrawingContext, DrawingContextProvider } from "../context/types";
 import { DEFAULT_COLOR, DEFAULT_WIDTH } from "./constants";
 import { Drawer, BrushSettings } from "./types";
 
+function isInside(pos: { x: number; y: number }, rect: RectangleEntity) {
+  return (
+    pos.x > rect.x &&
+    pos.x < rect.x + rect.width &&
+    pos.y < rect.y + rect.height &&
+    pos.y > rect.y
+  );
+}
+
 export class CanvasDrawer implements Drawer {
   private context: DrawingContext = null;
+  mainButton: RectangleEntity;
 
   constructor(
     private contextProvider: DrawingContextProvider,
@@ -13,6 +23,19 @@ export class CanvasDrawer implements Drawer {
     this.context = this.contextProvider.getInstance();
 
     if (!this.context) throw new Error("Failed to access the drawing context.");
+
+    const { canvas } = this.settings;
+
+    const widthButton = 200;
+    const heightButton = 70;
+
+    this.mainButton = {
+      x: canvas.width / 2 - widthButton / 2,
+      y: canvas.height / 2 - heightButton / 2,
+      width: widthButton,
+      height: heightButton,
+      borderRadius: 10,
+    };
   }
 
   public drawBall(
@@ -99,6 +122,66 @@ export class CanvasDrawer implements Drawer {
       0,
       this.settings.canvas.width,
       this.settings.canvas.height
+    );
+  }
+
+  drawPlayButton(): void {
+    if (!this.context) return;
+
+    this.context.beginPath();
+    this.context.roundRect(
+      this.mainButton.x,
+      this.mainButton.y,
+      this.mainButton.width,
+      this.mainButton.height,
+      this.mainButton.borderRadius
+    );
+    this.context.fillStyle = "#f5f5f5";
+    this.context.fill();
+    this.context.lineWidth = 4;
+    this.context.strokeStyle = "#1e1e1e";
+    this.context.stroke();
+    this.context.closePath();
+    this.context.font = "600 30pt monospace";
+    this.context.fillStyle = "#717171";
+    this.context.fillText(
+      "Start",
+      this.mainButton.x + 40,
+      this.mainButton.y + 30 + 20
+    );
+  }
+
+  clickedInsidePlayButton(point: Point): boolean {
+    return isInside(point, this.mainButton);
+  }
+
+  clickedInsideRetryButton(point: Point): boolean {
+    return isInside(point, this.mainButton);
+  }
+
+  drawRetryButton(): void {
+    if (!this.context) return;
+
+    this.context.beginPath();
+    this.context.roundRect(
+      this.mainButton.x,
+      this.mainButton.y,
+      this.mainButton.width,
+      this.mainButton.height,
+      this.mainButton.borderRadius
+    );
+    this.context.fillStyle = "#f5f5f5";
+    this.context.fill();
+    this.context.lineWidth = 4;
+    this.context.strokeStyle = "#1e1e1e";
+    this.context.stroke();
+    this.context.closePath();
+    this.context.font = "600 30pt monospace";
+    this.context.fillStyle = "#717171";
+    this.context.fillText(
+      "Retry",
+      this.mainButton.x + 40,
+      this.mainButton.y + 30 + 20
     );
   }
 }

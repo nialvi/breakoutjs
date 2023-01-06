@@ -5,7 +5,10 @@ import { StartRoom } from "./start";
 import { RoomsController } from "./types";
 
 export class Rooms implements RoomsController {
-  private state: "start" | "inProgress" | "end" = "start";
+  private state: {
+    type: "start" | "inProgress" | "end";
+    isNeedInited: boolean;
+  };
 
   constructor(
     private startRoom: StartRoom,
@@ -13,28 +16,63 @@ export class Rooms implements RoomsController {
     private endRoom: EndRoom,
     private eventListener: EventListener
   ) {
+    this.state = {
+      type: "start",
+      isNeedInited: true,
+    };
+
     this.eventListener.on("startGame", () => {
-      this.state = "inProgress";
+      this.state = {
+        type: "inProgress",
+        isNeedInited: true,
+      };
     });
 
     this.eventListener.on("endGame", () => {
-      this.state = "end";
+      this.state = {
+        type: "end",
+        isNeedInited: true,
+      };
+    });
+
+    this.eventListener.on("start", () => {
+      this.state = {
+        type: "inProgress",
+        isNeedInited: true,
+      };
     });
   }
 
   draw() {
-    switch (this.state) {
+    switch (this.state.type) {
       case "start": {
+        if (this.state.isNeedInited) {
+          this.startRoom.init();
+          this.state.isNeedInited = false;
+        }
+
         this.startRoom.draw();
         break;
       }
 
       case "inProgress": {
+        if (this.state.isNeedInited) {
+          this.startRoom.destroy();
+          this.inProgressRoom.init();
+          this.state.isNeedInited = false;
+        }
+
         this.inProgressRoom.draw();
         break;
       }
 
       case "end": {
+        if (this.state.isNeedInited) {
+          this.inProgressRoom.destroy();
+          this.endRoom.init();
+          this.state.isNeedInited = false;
+        }
+
         this.endRoom.draw();
         break;
       }
