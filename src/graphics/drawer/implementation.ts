@@ -129,12 +129,11 @@ export class CanvasDrawer implements Drawer {
     if (!this.context) return;
 
     this.context.beginPath();
-    this.context.roundRect(
+    this.context.rect(
       this.mainButton.x,
       this.mainButton.y,
       this.mainButton.width,
-      this.mainButton.height,
-      this.mainButton.borderRadius
+      this.mainButton.height
     );
     this.context.fillStyle = "#f5f5f5";
     this.context.fill();
@@ -163,12 +162,11 @@ export class CanvasDrawer implements Drawer {
     if (!this.context) return;
 
     this.context.beginPath();
-    this.context.roundRect(
+    this.context.rect(
       this.mainButton.x,
       this.mainButton.y,
       this.mainButton.width,
-      this.mainButton.height,
-      this.mainButton.borderRadius
+      this.mainButton.height
     );
     this.context.fillStyle = "#f5f5f5";
     this.context.fill();
