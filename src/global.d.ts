@@ -57,4 +57,13 @@ type PaddleEntity = CollisionObject & {
 };
 type BrickEntity = CollisionObject;
 
-type EventType = "left" | "right" | "top" | "bottom" | "start" | "stop";
+type EventType =
+  | "left"
+  | "right"
+  | "top"
+  | "bottom"
+  | "start"
+  | "stop"
+  | "startGame"
+  | "endGame"
+  | "inProgressGame";

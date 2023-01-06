@@ -1,0 +1,1 @@
+export { RoomsController } from "./types";

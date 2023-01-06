@@ -16,7 +16,10 @@ import "../input/gamepad/composition";
 import "../input/touch/composition";
 import "../eventListener/composition";
 import "../bricks/composition";
-import "../rooms/level/composition";
+import "../rooms/start/composition";
+import "../rooms/inProgress/composition";
+import "../rooms/end/composition";
+import "../rooms/composition";
 import "../walls/composition";
 
 container.registerSingleton<Window>(() => window);

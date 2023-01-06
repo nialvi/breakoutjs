@@ -1,20 +1,16 @@
 import { Application } from "./types";
 import { ElementSource } from "dom";
-import { Settings } from "settings";
-import { LevelRoom } from "rooms/level";
 import { GUI } from "settings/gui/types";
+import { RoomsController } from "rooms";
 
 export class App implements Application {
-  private timer: number = 0;
-
   constructor(
     private elementSource: ElementSource,
-    private settings: Settings,
-    private levelDefault: LevelRoom,
+    private rooms: RoomsController,
     private guiSettings: GUI
   ) {
     this.guiSettings.create();
-    this.guiSettings.onChange((event) => {
+    this.guiSettings.onChange(() => {
       window.location.reload();
     });
   }
@@ -28,7 +24,7 @@ export class App implements Application {
   }
 
   drawFrame = (timestamp: number): void => {
-    this.levelDefault.draw();
+    this.rooms.draw();
     this.elementSource.animateFrame(this.drawFrame);
   };
 }

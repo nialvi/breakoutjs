@@ -1,27 +1,26 @@
-import { LevelRoom } from "./types";
+import { InProgressRoom } from "./types";
 
 import { BallShape } from "ball";
 import { Drawer } from "graphics/drawer";
-import { Settings } from "settings";
 import { Collision } from "collision";
 import { PaddleShape } from "paddle";
 import { Input } from "input";
 import { BricksShape } from "bricks";
 import { WallsShape } from "walls";
+import { EventListener } from "eventListener";
 
-export class LevelDefault implements LevelRoom {
+export class InProgressLevel implements InProgressRoom {
   private paddleMovement: "left" | "right" | "stop";
 
   constructor(
     private ball: BallShape,
     private drawer: Drawer,
-
-    private settings: Settings,
     private collision: Collision,
     private paddle: PaddleShape,
     private input: Input,
     private bricks: BricksShape,
-    private walls: WallsShape
+    private walls: WallsShape,
+    private eventListener: EventListener
   ) {
     this.paddleMovement = "stop";
 
@@ -84,6 +83,8 @@ export class LevelDefault implements LevelRoom {
           this.ball.reset();
           this.paddle.reset();
           this.bricks.reset();
+
+          this.eventListener.notify("endGame");
         }
       }
 
