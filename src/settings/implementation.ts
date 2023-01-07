@@ -8,6 +8,8 @@ const bricksAmountColumn = 5;
 const bricksPaddingX = 5;
 
 export function getSettings({
+  canvasWidth,
+  canvasHeight,
   row = bricksAmountRow,
   col = bricksAmountColumn,
   paddleAcceleration = 1,
@@ -15,11 +17,14 @@ export function getSettings({
   paddleMaxSpeed = 20,
   paddleMinSpeed = 0,
   ballSpeed = 4,
-}: SettingsFromStorage): Settings {
+}: SettingsFromStorage & {
+  canvasWidth: PixelsAmount;
+  canvasHeight: PixelsAmount;
+}): Settings {
   return {
     canvas: {
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: canvasWidth,
+      height: canvasHeight,
       borderWidth: borderWidth,
     },
 
@@ -30,10 +35,7 @@ export function getSettings({
       },
       height: 20,
       width: Math.ceil(
-        (window.innerWidth -
-          wallWidth * 2 -
-          borderWidth * 2 -
-          bricksPaddingX * col) /
+        (canvasWidth - wallWidth * 2 - borderWidth * 2 - bricksPaddingX * col) /
           col
       ),
       padding: {
